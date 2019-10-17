@@ -1,1 +1,1 @@
-include ':app'
+include ':app', ':Interfaces', ':Engine_PC', ':engine_android', ':Starter_PC', ':Logica'
