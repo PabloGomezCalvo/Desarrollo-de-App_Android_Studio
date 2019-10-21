@@ -1,10 +1,12 @@
 package gdv.ucm.engine_pc;
 
+import javax.swing.JFrame;
+
 import gdv.ucm.interfaces.Graphics;
 import gdv.ucm.interfaces.Image;
 
 
-public class GraphicsPC implements Graphics{
+public class GraphicsPC extends JFrame implements Graphics{
 
     @Override
     public Image newImage(String name) {
@@ -21,14 +23,5 @@ public class GraphicsPC implements Graphics{
 
     }
 
-    @Override
-    public int getWidth() {
-        return 0;
-    }
-
-    @Override
-    public int getHeight() {
-        return 0;
-    }
 
 }
