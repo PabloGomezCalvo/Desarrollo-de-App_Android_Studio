@@ -6,10 +6,11 @@ import gdv.ucm.interfaces.Graphics;
 import gdv.ucm.interfaces.Image;
 
 
-public class GraphicsPC extends JFrame implements Graphics{
+public class GraphicsPC implements Graphics{
 
     @Override
     public Image newImage(String name) {
+
         return null;
     }
 
@@ -19,9 +20,20 @@ public class GraphicsPC extends JFrame implements Graphics{
     }
 
     @Override
-    public void drawImage(Image image) {
+    public void drawImage(Image image, int x, int y) {
 
     }
 
+    @Override
+    public int getWidth() {
+        return _ventana.getWidth();
+    }
+
+    @Override
+    public int getHeight() {
+        return _ventana.getHeight();
+    }
+
+    JFrame _ventana;
 
 }
