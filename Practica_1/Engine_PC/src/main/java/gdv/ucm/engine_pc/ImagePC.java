@@ -42,7 +42,7 @@ public class ImagePC implements Image {
      *
      * @return returns the image allocated as java.awt.Image
      */
-    public java.awt.Image getImage(){
+    public java.awt.Image getAWTImage(){
         return _image;
     }
 
