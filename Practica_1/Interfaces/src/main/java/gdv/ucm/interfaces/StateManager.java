@@ -1,6 +1,6 @@
 package gdv.ucm.interfaces;
 
-public interface GameLogic {
+public interface StateManager {
 
     void update(long deltaTime);//delta time aqui
     void render();

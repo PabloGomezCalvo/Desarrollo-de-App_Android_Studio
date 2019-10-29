@@ -4,9 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import gdv.ucm.engine_android.GameAndroid;
-import gdv.ucm.interfaces.Game;
-import gdv.ucm.interfaces.GameLogic;
-import gdv.ucm.logica.Logica;
+import gdv.ucm.logica.LogicStateManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,9 +12,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Logica logica = new Logica();
-        _gameAndroid = new GameAndroid(this.getAssets(),this,logica);
-        logica.init(_gameAndroid);
+        LogicStateManager logicStateManager = new LogicStateManager();
+        _gameAndroid = new GameAndroid(this.getAssets(),this,logicStateManager);
+        logicStateManager.init(_gameAndroid);
         setContentView(_gameAndroid.get_surfaceView());
     }
 

@@ -3,14 +3,14 @@ package gdv.ucm.engine_pc;
 import javax.swing.JFrame;
 
 import gdv.ucm.interfaces.Game;
-import gdv.ucm.interfaces.GameLogic;
 import gdv.ucm.interfaces.Graphics;
 import gdv.ucm.interfaces.Input;
+import gdv.ucm.interfaces.StateManager;
 
 public class GamePC implements Game {
 
-    public GamePC(int width, int height, GameLogic gameLogic){
-        _gameLogic = gameLogic;
+    public GamePC(int width, int height, StateManager stateManager){
+        _stateManager = stateManager;
         _graphics = new GraphicsPC(width,height);
         _input = new InputPC();
 
@@ -47,7 +47,7 @@ public class GamePC implements Game {
         long lastFrameTime = System.nanoTime();
         while(true){
             long currentTime = System.nanoTime();
-            _gameLogic.update((long)((currentTime-lastFrameTime)/1.0E9));
+            _stateManager.update((long)((currentTime-lastFrameTime)/1.0E9));
             lastFrameTime = currentTime;
             do{
                 do{
@@ -55,7 +55,7 @@ public class GamePC implements Game {
                     _graphics.setNewGraphics(g);
                     try{
                         _graphics.clear(255);
-                        _gameLogic.render();
+                        _stateManager.render();
                     }catch (Exception e){
 
                     }
@@ -81,6 +81,6 @@ public class GamePC implements Game {
 
     private GraphicsPC _graphics;
     private InputPC _input;
-    private GameLogic _gameLogic;
+    private StateManager _stateManager;
     private JFrame _window;
 }

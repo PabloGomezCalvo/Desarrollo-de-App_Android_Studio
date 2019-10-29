@@ -3,10 +3,10 @@ package gdv.ucm.logica;
 import java.io.IOException;
 
 import gdv.ucm.interfaces.Game;
-import gdv.ucm.interfaces.GameLogic;
 import gdv.ucm.interfaces.Image;
+import gdv.ucm.interfaces.StateManager;
 
-public class Logica implements GameLogic {
+public class LogicStateManager implements StateManager {
 
 
     public void init(Game game){
@@ -33,5 +33,4 @@ public class Logica implements GameLogic {
     private int x;
     private Image _balls;
     private Game _game;
-
 }

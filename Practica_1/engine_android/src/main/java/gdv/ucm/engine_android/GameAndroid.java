@@ -7,17 +7,17 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import gdv.ucm.interfaces.Game;
-import gdv.ucm.interfaces.GameLogic;
 import gdv.ucm.interfaces.Graphics;
 import gdv.ucm.interfaces.Input;
+import gdv.ucm.interfaces.StateManager;
 
 public class GameAndroid implements Game, Runnable {
 
-    public GameAndroid(AssetManager assetManager, Context context, GameLogic gameLogic){
+    public GameAndroid(AssetManager assetManager, Context context, StateManager stateManager){
         _input = new InputAndroid();
         _surfaceView = new SurfaceView(context);
         _graphics = new GraphicsAndroid(_surfaceView.getWidth(),_surfaceView.getHeight(), assetManager);
-        _gameLogic = gameLogic;
+        _stateManager = stateManager;
     }
 
     public void pause(){
@@ -46,14 +46,14 @@ public class GameAndroid implements Game, Runnable {
         long lastFrameTime = System.nanoTime();
         while(_running){
             long currentTime = System.nanoTime();
-            _gameLogic.update((long)((currentTime-lastFrameTime)/1.0E9));
+            _stateManager.update((long)((currentTime-lastFrameTime)/1.0E9));
             lastFrameTime = currentTime;
             while(!holder.getSurface().isValid())
                 ;
             Canvas canvas = holder.lockCanvas();
             _graphics.setNewCanvas(canvas);
             _graphics.clear(0xFF0000FF);
-            _gameLogic.render();
+            _stateManager.render();
             holder.unlockCanvasAndPost(canvas);
         }
     }
@@ -73,7 +73,7 @@ public class GameAndroid implements Game, Runnable {
     }
 
     private Thread _thread;
-    private GameLogic _gameLogic;
+    private StateManager _stateManager;
     private boolean _running = false;
     private GraphicsAndroid _graphics;
     private InputAndroid _input;
