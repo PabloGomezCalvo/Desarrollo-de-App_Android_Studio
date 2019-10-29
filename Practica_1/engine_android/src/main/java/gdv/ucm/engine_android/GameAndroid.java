@@ -24,7 +24,8 @@ public class GameAndroid implements Game, Runnable {
         _running = false;
         do{
             try {
-                _thread.join();//esperar a q termine
+                _thread.join();
+                _thread = null;
                 break;
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -41,11 +42,12 @@ public class GameAndroid implements Game, Runnable {
     }
 
     public void run(){
-
         SurfaceHolder holder = _surfaceView.getHolder();
+        long lastFrameTime = System.nanoTime();
         while(_running){
-
-            _gameLogic.update();
+            long currentTime = System.nanoTime();
+            _gameLogic.update((long)((currentTime-lastFrameTime)/1.0E9));
+            lastFrameTime = currentTime;
             while(!holder.getSurface().isValid())
                 ;
             Canvas canvas = holder.lockCanvas();

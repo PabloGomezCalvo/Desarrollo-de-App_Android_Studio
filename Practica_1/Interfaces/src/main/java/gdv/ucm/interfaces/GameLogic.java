@@ -2,7 +2,7 @@ package gdv.ucm.interfaces;
 
 public interface GameLogic {
 
-    void update();
+    void update(long deltaTime);//delta time aqui
     void render();
 
 }

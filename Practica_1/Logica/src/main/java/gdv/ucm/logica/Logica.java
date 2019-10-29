@@ -20,7 +20,8 @@ public class Logica implements GameLogic {
     }
 
     @Override
-    public void update() {
+    public void update(long deltaTime) {
+
         x++;
     }
 

@@ -44,15 +44,16 @@ public class GamePC implements Game {
     public void run(){
         java.awt.image.BufferStrategy strategy;
         strategy = _window.getBufferStrategy();
-
+        long lastFrameTime = System.nanoTime();
         while(true){
-
+            long currentTime = System.nanoTime();
+            _gameLogic.update((long)((currentTime-lastFrameTime)/1.0E9));
+            lastFrameTime = currentTime;
             do{
                 do{
                     java.awt.Graphics g = strategy.getDrawGraphics();
                     _graphics.setNewGraphics(g);
                     try{
-                        _gameLogic.update();
                         _graphics.clear(255);
                         _gameLogic.render();
                     }catch (Exception e){
