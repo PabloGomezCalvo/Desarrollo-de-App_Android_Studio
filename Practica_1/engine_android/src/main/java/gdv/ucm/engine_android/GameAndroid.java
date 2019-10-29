@@ -1,26 +1,63 @@
 package gdv.ucm.engine_android;
 
+import android.content.Context;
 import android.content.res.AssetManager;
+import android.graphics.Canvas;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 
 import gdv.ucm.interfaces.Game;
+import gdv.ucm.interfaces.GameLogic;
 import gdv.ucm.interfaces.Graphics;
 import gdv.ucm.interfaces.Input;
 
-public class GameAndroid implements Game {
+public class GameAndroid implements Game, Runnable {
 
-    public GameAndroid(int width, int height, AssetManager assetManager){
-        _width = width;
-        _height = height;
-        _graphics = new GraphicsAndroid(width,height, assetManager);
+    public GameAndroid(AssetManager assetManager, Context context, GameLogic gameLogic){
         _input = new InputAndroid();
+        _surfaceView = new SurfaceView(context);
+        _graphics = new GraphicsAndroid(_surfaceView.getWidth(),_surfaceView.getHeight(), assetManager);
+        _gameLogic = gameLogic;
     }
 
-    public void init(){
+    public void pause(){
+        _running = false;
+        do{
+            try {
+                _thread.join();//esperar a q termine
+                break;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }while(true);
+    }
 
+    public void resume(){
+        if(!_running) {
+            _running = true;
+            _thread = new Thread(this);
+            _thread.start();
+        }
     }
 
     public void run(){
 
+        SurfaceHolder holder = _surfaceView.getHolder();
+        while(_running){
+
+            _gameLogic.update();
+            while(!holder.getSurface().isValid())
+                ;
+            Canvas canvas = holder.lockCanvas();
+            _graphics.setNewCanvas(canvas);
+            _graphics.clear(0xFF0000FF);
+            _gameLogic.render();
+            holder.unlockCanvasAndPost(canvas);
+        }
+    }
+
+    public SurfaceView get_surfaceView(){
+        return _surfaceView;
     }
 
     @Override
@@ -33,9 +70,10 @@ public class GameAndroid implements Game {
         return _input;
     }
 
-
-    private int _width;
-    private int _height;
+    private Thread _thread;
+    private GameLogic _gameLogic;
+    private boolean _running = false;
     private GraphicsAndroid _graphics;
     private InputAndroid _input;
+    private SurfaceView _surfaceView;
 }

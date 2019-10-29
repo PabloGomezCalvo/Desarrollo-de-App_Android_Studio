@@ -46,7 +46,9 @@ public class GraphicsAndroid implements Graphics {
 
     @Override
     public void clear(int color) {
+
         _canvas.drawColor(color); // ARGB
+
     }
 
     @Override
