@@ -6,6 +6,7 @@ import gdv.ucm.interfaces.Game;
 import gdv.ucm.interfaces.Graphics;
 import gdv.ucm.interfaces.Input;
 import gdv.ucm.interfaces.StateManager;
+import gdv.ucm.utilities.Transform;
 
 public class GamePC implements Game {
 
@@ -13,7 +14,7 @@ public class GamePC implements Game {
         _stateManager = stateManager;
         _graphics = new GraphicsPC(width,height);
         _input = new InputPC();
-
+        _transform = new Transform(_graphics,width,height);
         _window = new JFrame("Game SKRA");
         _window.setSize(width,  height);
     }
@@ -71,14 +72,14 @@ public class GamePC implements Game {
 
     @Override
     public Graphics getGraphics() {
-        return _graphics;
+        return _transform;
     }
 
     @Override
     public Input getInput() {
         return _input;
     }
-
+    private Transform _transform;
     private GraphicsPC _graphics;
     private InputPC _input;
     private StateManager _stateManager;

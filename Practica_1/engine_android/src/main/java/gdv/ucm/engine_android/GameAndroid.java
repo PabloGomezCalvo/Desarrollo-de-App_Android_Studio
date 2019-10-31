@@ -10,6 +10,7 @@ import gdv.ucm.interfaces.Game;
 import gdv.ucm.interfaces.Graphics;
 import gdv.ucm.interfaces.Input;
 import gdv.ucm.interfaces.StateManager;
+import gdv.ucm.utilities.Transform;
 
 public class GameAndroid implements Game, Runnable {
 
@@ -17,6 +18,7 @@ public class GameAndroid implements Game, Runnable {
         _input = new InputAndroid();
         _surfaceView = new SurfaceView(context);
         _graphics = new GraphicsAndroid(_surfaceView.getWidth(),_surfaceView.getHeight(), assetManager);
+        _transform = new Transform(_graphics, _surfaceView.getWidth(), _surfaceView.getHeight());
         _stateManager = stateManager;
     }
 
@@ -64,7 +66,7 @@ public class GameAndroid implements Game, Runnable {
 
     @Override
     public Graphics getGraphics() {
-        return _graphics;
+        return _transform;
     }
 
     @Override
@@ -72,6 +74,7 @@ public class GameAndroid implements Game, Runnable {
         return _input;
     }
 
+    private Transform _transform;
     private Thread _thread;
     private StateManager _stateManager;
     private boolean _running = false;

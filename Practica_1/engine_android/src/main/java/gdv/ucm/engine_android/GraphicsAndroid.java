@@ -4,6 +4,7 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.view.SurfaceView;
 
 import java.io.IOException;
@@ -11,6 +12,8 @@ import java.io.InputStream;
 
 import gdv.ucm.interfaces.Graphics;
 import gdv.ucm.interfaces.Image;
+import gdv.ucm.utilities.Rectangle;
+import gdv.ucm.utilities.Sprite;
 
 public class GraphicsAndroid implements Graphics {
     public GraphicsAndroid(int width, int height, AssetManager assetManager){
@@ -54,6 +57,15 @@ public class GraphicsAndroid implements Graphics {
     @Override
     public void drawImage(Image image, int x, int y) {
         _canvas.drawBitmap(((ImageAndroid)image).getBitmap(),x,y,null);
+    }
+
+    @Override
+    public void drawRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal){
+        Rect rectOri = new Rect(rectOrigin._x,rectOrigin._y,
+                rectOrigin._x + rectOrigin._width, rectOrigin._y + rectOrigin._height);
+        Rect rectGo = new Rect(rectGoal._x,rectGoal._y,
+                rectGoal._x + rectGoal._width, rectGoal._y + rectGoal._height);
+        _canvas.drawBitmap(((ImageAndroid)image).getBitmap(),rectOri,rectGo, null);
     }
 
     @Override

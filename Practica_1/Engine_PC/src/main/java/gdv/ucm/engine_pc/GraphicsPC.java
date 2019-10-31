@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 
 import gdv.ucm.interfaces.Graphics;
 import gdv.ucm.interfaces.Image;
+import gdv.ucm.utilities.Rectangle;
+import gdv.ucm.utilities.Sprite;
 
 
 public class GraphicsPC implements Graphics{
@@ -42,6 +44,15 @@ public class GraphicsPC implements Graphics{
     @Override
     public void drawImage(Image image, int x, int y) {
         _graphics.drawImage(((ImagePC)image).getAWTImage(),x ,y, null);
+    }
+
+    @Override
+    public void drawRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal) {
+        _graphics.drawImage(((ImagePC)image).getAWTImage(),
+                rectGoal._x,rectGoal._y,rectGoal._x + rectGoal._width,rectGoal._y + rectGoal._height,
+                rectOrigin._x,rectOrigin._y,rectOrigin._x + rectOrigin._width,rectOrigin._y + rectOrigin._height,
+
+                null);
     }
 
     @Override
