@@ -9,9 +9,19 @@ import gdv.ucm.interfaces.Image;
 public class Transform  implements Graphics{
 
 
-    public void changeResoltionRatio(int width, int height){
-        _paintSpace._width = (width/_aspectRatioOriginalX)* _aspectRatioOriginalX;
-        _paintSpace._height = (height/_aspectRatioOriginalY)* _aspectRatioOriginalY;
+    public void changeResolutionRatio(int width, int height){
+
+        _paintSpace._width = (width/_aspectRatioOriginalX);
+        _paintSpace._height = (height/_aspectRatioOriginalY);
+
+        if(_paintSpace._width > _paintSpace._height) {
+            _paintSpace._width = _paintSpace._height * _aspectRatioOriginalX;
+            _paintSpace._height = _paintSpace._height * _aspectRatioOriginalY;
+        }
+        else{
+            _paintSpace._height = _paintSpace._width * _aspectRatioOriginalY;
+            _paintSpace._width = _paintSpace._width * _aspectRatioOriginalX;
+        }
         if(_paintSpace._width != width)
             _paintSpace._x = (width - _paintSpace._width)/2;
         else
@@ -74,10 +84,24 @@ public class Transform  implements Graphics{
         int newH = (rectGoal._height*_paintSpace._height)/_gameResolutionY;
         newX += _paintSpace._x;
         newY += _paintSpace._y;
+
         Rectangle rectGoalScalated = new Rectangle(newX, newY, newW,newH);
 
         _graphics.drawRectToRect(image,rectOrigin,rectGoalScalated);
 
+    }
+
+    @Override
+    public void drawRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal, int alpha) {
+        int newX = (rectGoal._x*_paintSpace._width)/_gameResolutionX;
+        int newY = (rectGoal._y*_paintSpace._height)/_gameResolutionY;
+        int newW = (rectGoal._width*_paintSpace._width)/_gameResolutionX;
+        int newH = (rectGoal._height*_paintSpace._height)/_gameResolutionY;
+        newX += _paintSpace._x;
+        newY += _paintSpace._y;
+        Rectangle rectGoalScalated = new Rectangle(newX, newY, newW,newH);
+
+        _graphics.drawRectToRect(image,rectOrigin,rectGoalScalated,alpha);
     }
 
     @Override

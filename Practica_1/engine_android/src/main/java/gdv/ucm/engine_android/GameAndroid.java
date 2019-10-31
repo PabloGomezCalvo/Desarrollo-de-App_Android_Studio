@@ -15,12 +15,14 @@ import gdv.ucm.utilities.Transform;
 public class GameAndroid implements Game, Runnable {
 
     public GameAndroid(AssetManager assetManager, Context context, StateManager stateManager){
+
         _input = new InputAndroid();
         _surfaceView = new SurfaceView(context);
         _graphics = new GraphicsAndroid(_surfaceView.getWidth(),_surfaceView.getHeight(), assetManager);
         _transform = new Transform(_graphics, _surfaceView.getWidth(), _surfaceView.getHeight());
         _stateManager = stateManager;
     }
+
 
     public void pause(){
         _running = false;
@@ -45,10 +47,15 @@ public class GameAndroid implements Game, Runnable {
 
     public void run(){
         SurfaceHolder holder = _surfaceView.getHolder();
+
+
         long lastFrameTime = System.nanoTime();
         while(_running){
+            _graphics.setResolution(_surfaceView.getWidth(),_surfaceView.getHeight());
+            _transform.changeResolutionRatio(_surfaceView.getWidth(),_surfaceView.getHeight());
+
             long currentTime = System.nanoTime();
-            _stateManager.update((long)((currentTime-lastFrameTime)/1.0E9));
+            _stateManager.update((float)((currentTime-lastFrameTime)/1.0E9));
             lastFrameTime = currentTime;
             while(!holder.getSurface().isValid())
                 ;
@@ -73,6 +80,7 @@ public class GameAndroid implements Game, Runnable {
     public Input getInput() {
         return _input;
     }
+
 
     private Transform _transform;
     private Thread _thread;

@@ -10,6 +10,7 @@ public interface Graphics {
     void clear(int color);
     void drawImage(Image image, int x, int y);//shit to finish
     void drawRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal);
+    void drawRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal, int alpha);
     int getWidth();
     int getHeight();
 }

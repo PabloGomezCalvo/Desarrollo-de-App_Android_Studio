@@ -50,10 +50,18 @@ public class GraphicsPC implements Graphics{
     public void drawRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal) {
         _graphics.drawImage(((ImagePC)image).getAWTImage(),
                 rectGoal._x,rectGoal._y,rectGoal._x + rectGoal._width,rectGoal._y + rectGoal._height,
-                rectOrigin._x,rectOrigin._y,rectOrigin._x + rectOrigin._width,rectOrigin._y + rectOrigin._height,
-
+                rectOrigin._x,rectOrigin._y,rectOrigin._x + rectOrigin._width,
+                rectOrigin._y + rectOrigin._height,
                 null);
     }
+
+    @Override
+    public void drawRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal, int alpha) {
+        _graphics.drawImage(((ImagePC)image).getAWTImage(),
+                rectGoal._x,rectGoal._y,rectGoal._x + rectGoal._width,rectGoal._y + rectGoal._height,
+                rectOrigin._x,rectOrigin._y,rectOrigin._x + rectOrigin._width,
+                rectOrigin._y + rectOrigin._height,
+                null);    }
 
     @Override
     public int getWidth() {
@@ -63,6 +71,11 @@ public class GraphicsPC implements Graphics{
     @Override
     public int getHeight() {
         return _height;
+    }
+
+    public void setResolution(int w, int h){
+        _width = w;
+        _height = h;
     }
     private String pathToAssets;
     private java.awt.Graphics _graphics;

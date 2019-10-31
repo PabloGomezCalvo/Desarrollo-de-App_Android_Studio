@@ -4,6 +4,7 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.SurfaceView;
 
@@ -20,6 +21,7 @@ public class GraphicsAndroid implements Graphics {
         _width = width;
         _height = height;
         _assetManager = assetManager;
+        System.out.println(_width);
     }
     @Override
     public Image newImage(String name) {
@@ -69,6 +71,18 @@ public class GraphicsAndroid implements Graphics {
     }
 
     @Override
+    public void drawRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal, int alpha) {
+        Paint paintAlpha = new Paint();
+        paintAlpha.setAlpha(alpha);
+
+        Rect rectOri = new Rect(rectOrigin._x,rectOrigin._y,
+                rectOrigin._x + rectOrigin._width, rectOrigin._y + rectOrigin._height);
+        Rect rectGo = new Rect(rectGoal._x,rectGoal._y,
+                rectGoal._x + rectGoal._width, rectGoal._y + rectGoal._height);
+        _canvas.drawBitmap(((ImageAndroid)image).getBitmap(),rectOri,rectGo, paintAlpha);
+    }
+
+    @Override
     public int getWidth() {
         return _width;
     }
@@ -76,6 +90,11 @@ public class GraphicsAndroid implements Graphics {
     @Override
     public int getHeight() {
         return _height;
+    }
+
+    public void setResolution(int w, int h){
+        _width = w;
+        _height = h;
     }
 
     private AssetManager _assetManager;

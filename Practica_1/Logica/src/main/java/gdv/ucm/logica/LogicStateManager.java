@@ -19,21 +19,27 @@ public class LogicStateManager implements StateManager {
             e.printStackTrace();
         }
         _sprite = new Sprite(_balls,new Rectangle(0,125,125,150));
+
     }
 
     @Override
-    public void update(long deltaTime) {
-
-        x++;
+    public void update(float deltaTime) {
+        /*alpha += 255 * deltaTime;
+        if(alpha > 255)
+            alpha = 0;*/
+        //x += 50 * deltaTime;
+        //System.out.println(alpha+ "\n");
     }
 
     @Override
     public void render() {
-        _game.getGraphics().drawRectToRect(_balls,_sprite.get_rectTexture(), new Rectangle(0,100,100 ,100));
+        _game.getGraphics().drawRectToRect(_balls,_sprite.get_rectTexture(),
+                new Rectangle(100,100,200 ,200));
     }
 
     Sprite _sprite;
-    private int x;
+    private float x = 100;
+    private float alpha = 0;
     private Image _balls;
     private Game _game;
 }

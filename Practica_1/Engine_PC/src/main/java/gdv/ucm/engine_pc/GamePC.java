@@ -47,8 +47,10 @@ public class GamePC implements Game {
         strategy = _window.getBufferStrategy();
         long lastFrameTime = System.nanoTime();
         while(true){
+            _transform.changeResolutionRatio(_window.getWidth(),_window.getHeight());
+            _graphics.setResolution(_window.getWidth(),_window.getHeight());
             long currentTime = System.nanoTime();
-            _stateManager.update((long)((currentTime-lastFrameTime)/1.0E9));
+            _stateManager.update((float)((currentTime-lastFrameTime)/1.0E9));
             lastFrameTime = currentTime;
             do{
                 do{
