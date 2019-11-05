@@ -1,7 +1,5 @@
 package gdv.ucm.logica;
 
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
-
 import java.io.IOException;
 import gdv.ucm.utilities.Rectangle;
 import gdv.ucm.utilities.Sprite;
@@ -10,7 +8,7 @@ public class MenuState implements State {
 
     public MenuState(LogicStateManager logicStateManager){
         _logicStateManager = logicStateManager;
-        _entityVector = new Entity[7];
+        _entityVector = new Entity[8];
     }
 
 
@@ -46,6 +44,10 @@ public class MenuState implements State {
                     new Sprite(_logicStateManager.getGame().getGraphics().
                             newImage("buttons.png"),new Rectangle(0,0,140,140)),
                     new Rectangle(890,200,140 ,140));
+            _entityVector[7] = new Entity(
+                    new Sprite(_logicStateManager.getGame().getGraphics().
+                            newImage("backgrounds.png"),new Rectangle(0,0,32,32)),
+                    new Rectangle(0,0,32 ,32));
 
         } catch (IOException e) {
             e.printStackTrace();

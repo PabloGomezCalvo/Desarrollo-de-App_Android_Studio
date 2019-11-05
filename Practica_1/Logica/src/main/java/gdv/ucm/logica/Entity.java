@@ -56,16 +56,16 @@ public class Entity {
 
 
         if(x >= 0 && x + getRectOrigin()._width <= getImage().getWidth())
-            _sprite.get_rectTexture()._x = (int)_xImage;
+            getRectOrigin()._x = (int)_xImage;
         else{
-            _sprite.get_rectTexture()._x = 0;
+            getRectOrigin()._x = 0;
             _xImage = 0;
         }
 
         if(y >= 0 && y + getRectOrigin()._height <= getImage().getHeight())
-            _sprite.get_rectTexture()._y = (int)_yImage;
+            getRectOrigin()._y = (int)_yImage;
         else{
-            _sprite.get_rectTexture()._y =  getImage().getHeight() - getRectOrigin()._height;
+            getRectOrigin()._y =  getImage().getHeight() - getRectOrigin()._height;
             _yImage = getImage().getHeight() - getRectOrigin()._height;;
         }
     }
