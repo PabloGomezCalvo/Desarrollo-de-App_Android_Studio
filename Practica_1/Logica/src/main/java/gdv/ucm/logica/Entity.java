@@ -66,15 +66,15 @@ public class Entity {
             getRectOrigin()._y = (int)_yImage;
         else{
             getRectOrigin()._y =  getImage().getHeight() - getRectOrigin()._height;
-            _yImage = getImage().getHeight() - getRectOrigin()._height;;
+            _yImage = getImage().getHeight() - getRectOrigin()._height;
         }
     }
 
-    private float _xImage;
-    private float _yImage;
-    private float _x;
-    private float _y;
-    private Rectangle _rectFinal;
-    private Sprite _sprite;
+    protected float _xImage;
+    protected float _yImage;
+    protected float _x;
+    protected float _y;
+    protected Rectangle _rectFinal;
+    protected Sprite _sprite;
 
 }

@@ -61,7 +61,7 @@ public class GameAndroid implements Game, Runnable {
                 ;
             Canvas canvas = holder.lockCanvas();
             _graphics.setNewCanvas(canvas);
-            _graphics.clear(0xFF0000FF);
+            _graphics.clear(0xFF000000);
             _stateManager.render();
             holder.unlockCanvasAndPost(canvas);
         }

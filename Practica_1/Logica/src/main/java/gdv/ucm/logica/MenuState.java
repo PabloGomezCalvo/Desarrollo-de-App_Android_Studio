@@ -16,9 +16,9 @@ public class MenuState implements State {
     public void init() {
 
         try {
-            _entityVector[0] = new Entity(
+            _entityVector[0] = new EntityBackgroundArrows(
                     new Sprite(_logicStateManager.getGame().getGraphics().
-                            newImage("arrowsBackground.png"),new Rectangle(0,1150,676,1228)),
+                            newImage("arrowsBackground.png"),new Rectangle(0,1150,676,1920)),
                     new Rectangle((1080/2)-(676/2),0,676 ,1920));
             _entityVector[1] = new Entity(
                     new Sprite(_logicStateManager.getGame().getGraphics().
@@ -56,6 +56,8 @@ public class MenuState implements State {
 
     @Override
     public void render() {
+
+
 
         for(int i = 0; i < _entityVector.length;i++)
             _logicStateManager.getGame().getGraphics().drawRectToRect(_entityVector[i].getImage(),
