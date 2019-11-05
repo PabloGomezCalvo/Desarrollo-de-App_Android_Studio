@@ -114,10 +114,10 @@ public class Transform  implements Graphics{
         return _graphics.getHeight();
     }
 
-    private int _gameResolutionX = 1920;
-    private int _gameResolutionY = 1080;
-    private int _aspectRatioOriginalX = 16;
-    private int _aspectRatioOriginalY = 9;
+    private int _gameResolutionX = 1080;
+    private int _gameResolutionY = 1920;
+    private int _aspectRatioOriginalX = 9;
+    private int _aspectRatioOriginalY = 16;
     private Rectangle _paintSpace;
     private Graphics _graphics;
 }

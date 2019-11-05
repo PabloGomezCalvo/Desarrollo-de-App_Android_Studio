@@ -11,6 +11,8 @@ public class Entity {
         _rectFinal = position;
         _x = 0;
         _y = 0;
+        _xImage = sprite.get_rectTexture()._x;
+        _yImage = sprite.get_rectTexture()._y;
     }
 
     public Image getImage(){
@@ -29,6 +31,14 @@ public class Entity {
         return _y;
     }
 
+    public float getPosImgX(){
+        return _xImage;
+    }
+
+    public float getPosImgY(){
+        return _yImage;
+    }
+
     public Rectangle getPosRectangle(){
         return _rectFinal;
     }
@@ -40,8 +50,28 @@ public class Entity {
         _rectFinal._x = (int)_x;
         _rectFinal._y = (int)_y;
     }
+    public void moveSurfaceImage(float x, float y){
+        _xImage = x;
+        _yImage = y;
 
 
+        if(x >= 0 && x + getRectOrigin()._width <= getImage().getWidth())
+            _sprite.get_rectTexture()._x = (int)_xImage;
+        else{
+            _sprite.get_rectTexture()._x = 0;
+            _xImage = 0;
+        }
+
+        if(y >= 0 && y + getRectOrigin()._height <= getImage().getHeight())
+            _sprite.get_rectTexture()._y = (int)_yImage;
+        else{
+            _sprite.get_rectTexture()._y =  getImage().getHeight() - getRectOrigin()._height;
+            _yImage = getImage().getHeight() - getRectOrigin()._height;;
+        }
+    }
+
+    private float _xImage;
+    private float _yImage;
     private float _x;
     private float _y;
     private Rectangle _rectFinal;

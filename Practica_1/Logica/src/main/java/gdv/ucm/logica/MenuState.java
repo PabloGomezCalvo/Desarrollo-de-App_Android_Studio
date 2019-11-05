@@ -1,7 +1,8 @@
 package gdv.ucm.logica;
 
-import java.io.IOException;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
+import java.io.IOException;
 import gdv.ucm.utilities.Rectangle;
 import gdv.ucm.utilities.Sprite;
 
@@ -9,8 +10,7 @@ public class MenuState implements State {
 
     public MenuState(LogicStateManager logicStateManager){
         _logicStateManager = logicStateManager;
-        _entityVector = new Entity[5];
-        i = 0;
+        _entityVector = new Entity[7];
     }
 
 
@@ -20,8 +20,33 @@ public class MenuState implements State {
         try {
             _entityVector[0] = new Entity(
                     new Sprite(_logicStateManager.getGame().getGraphics().
-                            newImage("balls.png"),new Rectangle(0,150,130,150)),
-                    new Rectangle(0,0,130 ,150));
+                            newImage("arrowsBackground.png"),new Rectangle(0,1150,676,1228)),
+                    new Rectangle((1080/2)-(676/2),0,676 ,1920));
+            _entityVector[1] = new Entity(
+                    new Sprite(_logicStateManager.getGame().getGraphics().
+                            newImage("white.png"),new Rectangle(0,0,32,32)),
+                    new Rectangle(870,0,(1080/2)-(676/2) ,1920));
+            _entityVector[2] = new Entity(
+                    new Sprite(_logicStateManager.getGame().getGraphics().
+                            newImage("white.png"),new Rectangle(0,0,32,32)),
+                    new Rectangle(0,0,(1080/2)-(676/2),1920));
+            _entityVector[3] = new Entity(
+                    new Sprite(_logicStateManager.getGame().getGraphics().
+                            newImage("switchDashLogo.png"),new Rectangle(0,0,508,368)),
+                    new Rectangle((1080/2)-(508/2),200,508 ,368));
+            _entityVector[4] = new Entity(
+                    new Sprite(_logicStateManager.getGame().getGraphics().
+                            newImage("tapToPlay.png"),new Rectangle(0,0,506,72)),
+                    new Rectangle((1080/2)-(506/2),800,506 ,72));
+            _entityVector[5] = new Entity(
+                    new Sprite(_logicStateManager.getGame().getGraphics().
+                            newImage("buttons.png"),new Rectangle(140,0,140,140)),
+                    new Rectangle(50,200,140 ,140));
+            _entityVector[6] = new Entity(
+                    new Sprite(_logicStateManager.getGame().getGraphics().
+                            newImage("buttons.png"),new Rectangle(0,0,140,140)),
+                    new Rectangle(890,200,140 ,140));
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -29,21 +54,20 @@ public class MenuState implements State {
 
     @Override
     public void render() {
-        _logicStateManager.getGame().getGraphics().drawRectToRect(_entityVector[0].getImage(),
-                _entityVector[0].getRectOrigin(),_entityVector[0].getPosRectangle());
+
+        for(int i = 0; i < _entityVector.length;i++)
+            _logicStateManager.getGame().getGraphics().drawRectToRect(_entityVector[i].getImage(),
+                    _entityVector[i].getRectOrigin(),_entityVector[i].getPosRectangle());
+
     }
 
     @Override
     public void update(float deltaTime) {
-        i++;
-        if(i > 1500)
-            _logicStateManager.spawActiveState(1);
-        else
-            _entityVector[0].moveEntity(_entityVector[0].getPosX() + 50*deltaTime,_entityVector[0].getPosY());
-
+        System.out.println(_entityVector[0].getRectOrigin()._y);
+        _entityVector[0].moveSurfaceImage(_entityVector[0].getPosImgX(),
+                _entityVector[0].getPosImgY() - 100 * deltaTime);
     }
 
-    private int i;
     private LogicStateManager _logicStateManager;
     private Entity _entityVector [];
 }

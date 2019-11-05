@@ -57,7 +57,7 @@ public class GamePC implements Game {
                     java.awt.Graphics g = strategy.getDrawGraphics();
                     _graphics.setNewGraphics(g);
                     try{
-                        _graphics.clear(255);
+                        _graphics.clear(0xFF000000);
                         _stateManager.render();
                     }catch (Exception e){
 

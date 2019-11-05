@@ -38,7 +38,7 @@ public class GraphicsPC implements Graphics{
     public void clear(int color) {
         Color c = new Color(color);
         _graphics.setColor(c);
-        _graphics.clearRect(0,0,_width,_height);
+        _graphics.fillRect(0,0,_width,_height);
     }
 
     @Override
