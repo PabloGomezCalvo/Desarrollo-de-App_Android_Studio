@@ -6,6 +6,9 @@ import gdv.ucm.utilities.Sprite;
 public class EntityBackgroundArrows extends Entity {
     public EntityBackgroundArrows(Sprite sprite, Rectangle position) {
         super(sprite, position);
+        _yStart = sprite.get_rectTexture()._y;
+        _tamPerTile = sprite.get_img().getHeight() / 5;
+        _offset = _tamPerTile - ((_tamPerTile * 4) - sprite.get_rectTexture()._height);
     }
 
 
@@ -22,7 +25,7 @@ public class EntityBackgroundArrows extends Entity {
         }
     }
 
-    private int _yStart = 1150;
-    private int _tamPerTile = 614;
-    private int _offset = 78;
+    private int _yStart;
+    private int _tamPerTile;
+    private int _offset;
 }
