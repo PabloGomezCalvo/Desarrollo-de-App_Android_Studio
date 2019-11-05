@@ -65,8 +65,8 @@ public class Entity {
         if(y >= 0 && y + getRectOrigin()._height <= getImage().getHeight())
             getRectOrigin()._y = (int)_yImage;
         else{
-            getRectOrigin()._y =  getImage().getHeight() - getRectOrigin()._height;
-            _yImage = getImage().getHeight() - getRectOrigin()._height;
+            getRectOrigin()._y =  0;
+            _yImage = 0;
         }
     }
 

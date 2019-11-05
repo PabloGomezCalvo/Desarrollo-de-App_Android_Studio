@@ -57,8 +57,6 @@ public class MenuState implements State {
     @Override
     public void render() {
 
-
-
         for(int i = 0; i < _entityVector.length;i++)
             _logicStateManager.getGame().getGraphics().drawRectToRect(_entityVector[i].getImage(),
                     _entityVector[i].getRectOrigin(),_entityVector[i].getPosRectangle());
@@ -67,9 +65,8 @@ public class MenuState implements State {
 
     @Override
     public void update(float deltaTime) {
-        System.out.println(_entityVector[0].getRectOrigin()._y);
         _entityVector[0].moveSurfaceImage(_entityVector[0].getPosImgX(),
-                _entityVector[0].getPosImgY() - 100 * deltaTime);
+                _entityVector[0].getPosImgY() - 100 * deltaTime); //muevo el fondoDeArrows
     }
 
     private LogicStateManager _logicStateManager;
