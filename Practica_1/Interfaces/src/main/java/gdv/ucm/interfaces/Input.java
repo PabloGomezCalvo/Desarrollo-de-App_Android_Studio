@@ -6,24 +6,18 @@ import java.util.List;
 
 public interface Input {
 
-    enum EventType{
-        Press,
-        Release,
-        Dragg
-    }
 
-    class TouchEvent{
-
-        EventType getType(){
-            return _event;
+    public class TouchEvent{
+        public enum EventType{
+            Press,
+            Release,
+            Dragg
         }
 
+        public EventType _eventType;
         public int x;
         public int y;
-
-        public EventType _event;
-
-        public int fingerId;
+        public int pointerId;
     };
 
     List<TouchEvent> getTouchEvents();

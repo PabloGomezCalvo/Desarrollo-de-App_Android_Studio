@@ -11,8 +11,9 @@ public class LogicStateManager implements StateManager {
 
 
     public void init(Game game){
+        _cNum = (int)(Math.random()* (_totalColors-1));
         _game = game;
-        _activeState = new MenuState(this);
+        _activeState = new MenuState(this,_cNum);
         _activeState.init();
     }
 
@@ -23,17 +24,29 @@ public class LogicStateManager implements StateManager {
 
     @Override
     public void render() {
+
+        _game.getGraphics().clear(_clearColor);
         _activeState.render();
     }
 
     public void spawActiveState(int i){
 
-        if(i != 0) {
-            _activeState = new MenuState(this);
+        if(i == 0) {
+            _activeState = new MenuState(this,_cNum);
             _activeState.init();
         }
+        else
+            _activeState = new MenuState(this,6);
+            _activeState.init();
     }
 
+    public void setClearColor(int c){
+        _clearColor = c;
+    }
+
+    private int _totalColors = 9;
+    private int _cNum;
+    private int _clearColor;
     State _activeState;
     private Game _game;
 }

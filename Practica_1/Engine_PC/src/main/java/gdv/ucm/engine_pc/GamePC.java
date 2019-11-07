@@ -13,9 +13,10 @@ public class GamePC implements Game {
     public GamePC(int width, int height, StateManager stateManager){
         _stateManager = stateManager;
         _graphics = new GraphicsPC(width,height);
-        _input = new InputPC();
         _transform = new Transform(_graphics,width,height);
-        _window = new JFrame("Game SKRA");
+        _input = new InputPC(_transform);
+        _window = new JFrame("Switch Dash Game");
+        _window.addMouseListener(_input);
         _window.setSize(width,  height);
     }
 
@@ -57,7 +58,6 @@ public class GamePC implements Game {
                     java.awt.Graphics g = strategy.getDrawGraphics();
                     _graphics.setNewGraphics(g);
                     try{
-                        _graphics.clear(0xFF000000);
                         _stateManager.render();
                     }catch (Exception e){
 

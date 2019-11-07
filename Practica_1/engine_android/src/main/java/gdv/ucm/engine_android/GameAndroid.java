@@ -15,11 +15,10 @@ import gdv.ucm.utilities.Transform;
 public class GameAndroid implements Game, Runnable {
 
     public GameAndroid(AssetManager assetManager, Context context, StateManager stateManager){
-
-        _input = new InputAndroid();
         _surfaceView = new SurfaceView(context);
         _graphics = new GraphicsAndroid(_surfaceView.getWidth(),_surfaceView.getHeight(), assetManager);
         _transform = new Transform(_graphics, _surfaceView.getWidth(), _surfaceView.getHeight());
+        _input = new InputAndroid();
         _stateManager = stateManager;
     }
 
@@ -61,7 +60,6 @@ public class GameAndroid implements Game, Runnable {
                 ;
             Canvas canvas = holder.lockCanvas();
             _graphics.setNewCanvas(canvas);
-            _graphics.clear(0xFF000000);
             _stateManager.render();
             holder.unlockCanvasAndPost(canvas);
         }

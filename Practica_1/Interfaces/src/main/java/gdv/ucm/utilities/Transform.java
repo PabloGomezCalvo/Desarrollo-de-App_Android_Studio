@@ -109,6 +109,12 @@ public class Transform  implements Graphics{
         return _graphics.getColorSprite(image,x,y,w,h);
     }
 
+    public int changeToGamelCoordenatesX(int x){
+        return x* _gameResolutionX/_paintSpace._width;
+    }
+    public int changeToGamelCoordenatesY(int y){
+        return y* _gameResolutionY/_paintSpace._height;
+    }
     @Override
     public int getWidth() {
         return _graphics.getWidth();

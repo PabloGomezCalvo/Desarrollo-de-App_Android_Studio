@@ -29,7 +29,6 @@ public class GraphicsAndroid implements Graphics {
         _width = width;
         _height = height;
         _assetManager = assetManager;
-        System.out.println(_width);
     }
     @Override
     public Image newImage(String name) {
@@ -60,7 +59,7 @@ public class GraphicsAndroid implements Graphics {
     @Override
     public void clear(int color) {
 
-        _canvas.drawColor(color); // ARGB
+        _canvas.drawColor(0xFF000000); // ARGB
 
     }
 
@@ -92,7 +91,6 @@ public class GraphicsAndroid implements Graphics {
 */
     @Override
     public void drawRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal, int color) {
-
         Bitmap resultBitmap = Bitmap.createBitmap(((ImageAndroid)image).getBitmap(), 0, 0,
                 ((ImageAndroid)image).getBitmap().getWidth() - 1, ((ImageAndroid)image).getBitmap().getHeight() - 1);
         Paint p = new Paint();
