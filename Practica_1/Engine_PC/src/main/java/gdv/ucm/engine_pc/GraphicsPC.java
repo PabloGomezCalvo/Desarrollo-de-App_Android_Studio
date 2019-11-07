@@ -1,6 +1,7 @@
 package gdv.ucm.engine_pc;
 
 import java.awt.Color;
+import java.awt.image.PixelGrabber;
 import java.io.IOException;
 
 import javax.swing.JFrame;
@@ -55,13 +56,37 @@ public class GraphicsPC implements Graphics{
                 null);
     }
 
-    @Override
+   /* @Override
     public void drawRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal, int alpha) {
         _graphics.drawImage(((ImagePC)image).getAWTImage(),
                 rectGoal._x,rectGoal._y,rectGoal._x + rectGoal._width,rectGoal._y + rectGoal._height,
                 rectOrigin._x,rectOrigin._y,rectOrigin._x + rectOrigin._width,
                 rectOrigin._y + rectOrigin._height,
                 null);    }
+*/
+    @Override
+    public void drawRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal, int color) {
+       Color c = new Color(color);
+       _graphics.drawImage(((ImagePC)image).getAWTImage(),
+                rectGoal._x,rectGoal._y,rectGoal._x + rectGoal._width,rectGoal._y + rectGoal._height,
+                rectOrigin._x,rectOrigin._y,rectOrigin._x + rectOrigin._width,
+                rectOrigin._y + rectOrigin._height,c,
+                null);
+    }
+
+    @Override
+    public int getColorSprite(Image image, int x, int y, int w, int h) {
+        int pixels [] = new int[w*h];
+        PixelGrabber pg =
+                new PixelGrabber(((ImagePC)image).getAWTImage(),x,  y, w,  h,
+                        pixels, 0, w);
+        try {
+            pg.grabPixels();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return pixels[0];
+    }
 
     @Override
     public int getWidth() {

@@ -105,6 +105,11 @@ public class Transform  implements Graphics{
     }
 
     @Override
+    public int getColorSprite(Image image, int x, int y, int w, int h) {
+        return _graphics.getColorSprite(image,x,y,w,h);
+    }
+
+    @Override
     public int getWidth() {
         return _graphics.getWidth();
     }
