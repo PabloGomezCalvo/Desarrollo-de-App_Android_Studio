@@ -3,23 +3,13 @@ package gdv.ucm.engine_android;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.BitmapShader;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.ColorFilter;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
-import android.support.v4.graphics.ColorUtils;
-
 import java.io.IOException;
 import java.io.InputStream;
-
 import gdv.ucm.interfaces.Graphics;
 import gdv.ucm.interfaces.Image;
 import gdv.ucm.utilities.Rectangle;
@@ -59,7 +49,8 @@ public class GraphicsAndroid implements Graphics {
     @Override
     public void clear(int color) {
 
-        _canvas.drawColor(0xFF000000); // ARGB
+        color = color | 0xFF000000;
+        _canvas.drawColor(color); // ARGB
 
     }
 
@@ -91,8 +82,6 @@ public class GraphicsAndroid implements Graphics {
 */
     @Override
     public void drawRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal, int color) {
-        Bitmap resultBitmap = Bitmap.createBitmap(((ImageAndroid)image).getBitmap(), 0, 0,
-                ((ImageAndroid)image).getBitmap().getWidth() - 1, ((ImageAndroid)image).getBitmap().getHeight() - 1);
         Paint p = new Paint();
         ColorFilter filter = new LightingColorFilter(color,0);
         p.setColorFilter(filter);
@@ -107,7 +96,7 @@ public class GraphicsAndroid implements Graphics {
 
     @Override
     public int getColorSprite(Image image, int x, int y, int w, int h) {
-        int color = ((ImageAndroid)image).getBitmap().getPixel(0,0);
+        int color = ((ImageAndroid)image).getBitmap().getPixel(x, y);
         return color;
     }
 

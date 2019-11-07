@@ -24,8 +24,7 @@ public class LogicStateManager implements StateManager {
 
     @Override
     public void render() {
-
-        _game.getGraphics().clear(_clearColor);
+        _game.getGraphics().clear(_clearColor[_cNum]);
         _activeState.render();
     }
 
@@ -40,13 +39,11 @@ public class LogicStateManager implements StateManager {
             _activeState.init();
     }
 
-    public void setClearColor(int c){
-        _clearColor = c;
-    }
+
 
     private int _totalColors = 9;
     private int _cNum;
-    private int _clearColor;
+    private int[] _clearColor = { 0x41a85f, 0x00a885, 0x3d8eb9, 0x2969b0, 0x553982, 0x28324e, 0xf37934, 0xd14b41, 0x75706b};
     State _activeState;
     private Game _game;
 }

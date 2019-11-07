@@ -41,9 +41,6 @@ public class MenuState implements State {
             int color = _logicStateManager.getGame().getGraphics().getColorSprite(_logicStateManager.getGame().getGraphics().
                             newImage("backgrounds.png"),0 + 32 * _numColor,0,32,32);
 
-            _logicStateManager.setClearColor(color);
-
-
             _entityVector[0] = new EntityBackgroundArrows(
                     new Sprite(_logicStateManager.getGame().getGraphics().
                             newImage("arrowsBackground.png"),new Rectangle(0,1150,676,1920)),
