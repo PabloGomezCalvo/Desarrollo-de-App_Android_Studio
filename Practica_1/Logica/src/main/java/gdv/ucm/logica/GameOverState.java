@@ -2,33 +2,31 @@ package gdv.ucm.logica;
 
 import java.io.IOException;
 import java.util.List;
+
 import gdv.ucm.interfaces.Input;
 import gdv.ucm.utilities.Rectangle;
 import gdv.ucm.utilities.Sprite;
 
-public class MenuState implements State {
+public class GameOverState implements State {
 
-    public MenuState(LogicStateManager logicStateManager, int numColor){
+    public GameOverState(LogicStateManager logicStateManager, int numColor){
         _logicStateManager = logicStateManager;
         _entityVector = new Entity[5];
         _numColor = numColor;
     }
 
-
     @Override
     public void init() {
-
-
         try {
 
             _entityVector[1] = new Entity(
                     new Sprite(_logicStateManager.getGame().getGraphics().
-                            newImage("switchDashLogo.png"),new Rectangle(0,0,508,368)),
-                    new Rectangle((1080/2)-(508/2),200,508 ,368));
+                            newImage("gameOver.png"),new Rectangle(0,0,252,208)),
+                    new Rectangle((1080/2)-(252/2),350,252 ,208));
             _entityVector[2] = new Entity(
                     new Sprite(_logicStateManager.getGame().getGraphics().
-                            newImage("tapToPlay.png"),new Rectangle(0,0,506,72)),
-                    new Rectangle((1080/2)-(506/2),800,506 ,72));
+                            newImage("playAgain.png"),new Rectangle(0,0,532,72)),
+                    new Rectangle((1080/2)-(532/2),1400,532 ,72));
             _entityVector[3] = new Entity(
                     new Sprite(_logicStateManager.getGame().getGraphics().
                             newImage("buttons.png"),new Rectangle(140*2,0,140,140)),
@@ -39,7 +37,7 @@ public class MenuState implements State {
                     new Rectangle(890,200,140 ,140));
 
             int color = _logicStateManager.getGame().getGraphics().getColorSprite(_logicStateManager.getGame().getGraphics().
-                            newImage("backgrounds.png"),0 + 32 * _numColor,0,32,32);
+                    newImage("backgrounds.png"),0 + 32 * _numColor,0,32,32);
 
             _entityVector[0] = new EntityBackgroundArrows(
                     new Sprite(_logicStateManager.getGame().getGraphics().
@@ -65,11 +63,13 @@ public class MenuState implements State {
 
     @Override
     public void update(float deltaTime) {
+
+
         _entityVector[0].moveSurfaceImage(_entityVector[0].getPosImgX(),
                 _entityVector[0].getPosImgY() - 100 * deltaTime); //muevo el fondoDeArrows
 
 
-         List<Input.TouchEvent> inputStream = _logicStateManager.getGame().getInput().getTouchEvents();
+        List<Input.TouchEvent> inputStream = _logicStateManager.getGame().getInput().getTouchEvents();
 
         while(!inputStream.isEmpty()){
             Input.TouchEvent event = inputStream.get(0);
@@ -77,18 +77,25 @@ public class MenuState implements State {
             if(event._eventType == Input.TouchEvent.EventType.Release
                     && event.y <= _entityVector[4]._rectFinal._y + _entityVector[4]._rectFinal._height && event.y >= _entityVector[4]._rectFinal._y
                     && event.x <= _entityVector[4]._rectFinal._x + _entityVector[4]._rectFinal._width && event.x >= _entityVector[4]._rectFinal._x)
-            _logicStateManager.spawActiveState(1);
+                _logicStateManager.spawActiveState(1);
 
+                //TODO: TAP TO PLAY -> ESTADO.PLAY EN VEZ DE AL ESTADO.MENU
 
             else if(event._eventType == Input.TouchEvent.EventType.Release
                     && event.y <= _entityVector[0]._rectFinal._y + _entityVector[0]._rectFinal._height && event.y >= _entityVector[0]._rectFinal._y
                     && event.x <= _entityVector[0]._rectFinal._x + _entityVector[0]._rectFinal._width && event.x >= _entityVector[0]._rectFinal._x)
-                _logicStateManager.spawActiveState(3);
-            //TODO: TAP TO PLAY -> ESTADO.PLAY
+                _logicStateManager.spawActiveState(0);
+
         }
+
+
+
+
     }
 
     private int _numColor;
     private LogicStateManager _logicStateManager;
     private Entity _entityVector [];
+
+    // private Entity _caracteres []
 }

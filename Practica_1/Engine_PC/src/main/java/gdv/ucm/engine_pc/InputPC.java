@@ -5,13 +5,13 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 import gdv.ucm.interfaces.Input;
-import gdv.ucm.utilities.Transform;
+import gdv.ucm.utilities.AbstractGraphics;
 
 
 public class InputPC implements Input, MouseListener {
 
-    public InputPC(Transform transform){
-        _tranform = transform;
+    public InputPC(AbstractGraphics abstractGraphics){
+        _abstractGraphics = abstractGraphics;
         _inputStream = new ArrayList<>();
     }
 
@@ -20,55 +20,73 @@ public class InputPC implements Input, MouseListener {
         return _inputStream;
     }
 
-    synchronized private void addNewEvent(TouchEvent event){
-        _inputStream.add(event);
-    }
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
         TouchEvent _event = new TouchEvent();
-        _event.x = _tranform.changeToGamelCoordenatesX(mouseEvent.getX());
-        _event.y = _tranform.changeToGamelCoordenatesY(mouseEvent.getY());
+        _event.x = _abstractGraphics.changeToGamelCoordenatesX(mouseEvent.getX());
+        _event.y = _abstractGraphics.changeToGamelCoordenatesY(mouseEvent.getY());
         _event._eventType = TouchEvent.EventType.Release;
         _event.pointerId = mouseEvent.getButton();
 
+        System.out.println(_event.x + "  " + _event.y);
 
-        addNewEvent(_event);
+        synchronized (this) {
+            _inputStream.add(_event);
+        }
 
     }
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
         TouchEvent _event = new TouchEvent();
-        _event.x = _tranform.changeToGamelCoordenatesX(mouseEvent.getX());
-        _event.y = _tranform.changeToGamelCoordenatesY(mouseEvent.getY());
+        _event.x = _abstractGraphics.changeToGamelCoordenatesX(mouseEvent.getX());
+        _event.y = _abstractGraphics.changeToGamelCoordenatesY(mouseEvent.getY());
         _event._eventType = TouchEvent.EventType.Press;
         _event.pointerId = mouseEvent.getButton();
 
 
-        addNewEvent(_event);
+        synchronized (this) {
+            _inputStream.add(_event);
+        }
     }
 
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {
         TouchEvent _event = new TouchEvent();
-        _event.x = _tranform.changeToGamelCoordenatesX(mouseEvent.getX());
-        _event.y = _tranform.changeToGamelCoordenatesY(mouseEvent.getY());
+        _event.x = _abstractGraphics.changeToGamelCoordenatesX(mouseEvent.getX());
+        _event.y = _abstractGraphics.changeToGamelCoordenatesY(mouseEvent.getY());
         _event._eventType = TouchEvent.EventType.Release;
         _event.pointerId = mouseEvent.getButton();
-        addNewEvent(_event);
+        synchronized (this) {
+            _inputStream.add(_event);
+        }
     }
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-
+        TouchEvent _event = new TouchEvent();
+        _event.x = _abstractGraphics.changeToGamelCoordenatesX(mouseEvent.getX());
+        _event.y = _abstractGraphics.changeToGamelCoordenatesY(mouseEvent.getY());
+        _event._eventType = TouchEvent.EventType.EnteredScreen;
+        _event.pointerId = mouseEvent.getButton();
+        synchronized (this) {
+            _inputStream.add(_event);
+        }
     }
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
-
+        TouchEvent _event = new TouchEvent();
+        _event.x = _abstractGraphics.changeToGamelCoordenatesX(mouseEvent.getX());
+        _event.y = _abstractGraphics.changeToGamelCoordenatesY(mouseEvent.getY());
+        _event._eventType = TouchEvent.EventType.ExitScreen;
+        _event.pointerId = mouseEvent.getButton();
+        synchronized (this) {
+            _inputStream.add(_event);
+        }
     }
 
-    Transform _tranform;
+    AbstractGraphics _abstractGraphics;
     List<TouchEvent> _inputStream;
 }

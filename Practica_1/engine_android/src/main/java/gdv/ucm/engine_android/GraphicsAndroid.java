@@ -12,16 +12,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import gdv.ucm.interfaces.Graphics;
 import gdv.ucm.interfaces.Image;
+import gdv.ucm.utilities.AbstractGraphics;
 import gdv.ucm.utilities.Rectangle;
 
-public class GraphicsAndroid implements Graphics {
+public class GraphicsAndroid extends AbstractGraphics {
     public GraphicsAndroid(int width, int height, AssetManager assetManager){
+        super(width, height);
         _width = width;
         _height = height;
         _assetManager = assetManager;
     }
     @Override
-    public Image newImage(String name) {
+    public Image newPrivateImage(String name) {
         InputStream inputStream = null;
         Bitmap _sprite = null;
         try{
@@ -47,7 +49,7 @@ public class GraphicsAndroid implements Graphics {
     }
 
     @Override
-    public void clear(int color) {
+    public void privateClear(int color) {
 
         color = color | 0xFF000000;
         _canvas.drawColor(color); // ARGB
@@ -55,12 +57,12 @@ public class GraphicsAndroid implements Graphics {
     }
 
     @Override
-    public void drawImage(Image image, int x, int y) {
+    public void drawPrivateImage(Image image, int x, int y) {
         _canvas.drawBitmap(((ImageAndroid)image).getBitmap(),x,y,null);
     }
 
     @Override
-    public void drawRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal){
+    public void drawPrivateRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal){
         Rect rectOri = new Rect(rectOrigin._x,rectOrigin._y,
                 rectOrigin._x + rectOrigin._width, rectOrigin._y + rectOrigin._height);
         Rect rectGo = new Rect(rectGoal._x,rectGoal._y,
@@ -81,7 +83,7 @@ public class GraphicsAndroid implements Graphics {
     }
 */
     @Override
-    public void drawRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal, int color) {
+    public void drawPrivateRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal, int color) {
         Paint p = new Paint();
         ColorFilter filter = new LightingColorFilter(color,0);
         p.setColorFilter(filter);
@@ -95,7 +97,7 @@ public class GraphicsAndroid implements Graphics {
     }
 
     @Override
-    public int getColorSprite(Image image, int x, int y, int w, int h) {
+    public int getPrivateColorSprite(Image image, int x, int y, int w, int h) {
         int color = ((ImageAndroid)image).getBitmap().getPixel(x, y);
         return color;
     }

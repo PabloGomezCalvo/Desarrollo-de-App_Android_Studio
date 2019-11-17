@@ -1,12 +1,44 @@
 package gdv.ucm.utilities;
 
-
 import java.io.IOException;
 
 import gdv.ucm.interfaces.Graphics;
 import gdv.ucm.interfaces.Image;
 
-public class Transform  implements Graphics{
+public abstract class AbstractGraphics implements Graphics {
+
+    protected abstract Image newPrivateImage(String name) throws IOException;
+    protected abstract void privateClear(int color);
+    protected abstract void drawPrivateImage(Image image, int x, int y);//shit to finish
+    protected abstract void drawPrivateRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal);
+    //void drawRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal, int alpha);
+    protected abstract void drawPrivateRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal, int color);
+    protected abstract int getPrivateColorSprite(Image image, int x, int y, int w, int h);
+
+
+    public AbstractGraphics(int width, int height){
+        _paintSpace = new Rectangle(0,0,0,0);
+
+        _paintSpace._width = (width/_aspectRatioOriginalX);
+        _paintSpace._height = (height/_aspectRatioOriginalY);
+
+        if(_paintSpace._width > _paintSpace._height) {
+            _paintSpace._width = _paintSpace._height * _aspectRatioOriginalX;
+            _paintSpace._height = _paintSpace._height * _aspectRatioOriginalY;
+        }
+        else{
+            _paintSpace._height = _paintSpace._width * _aspectRatioOriginalY;
+            _paintSpace._width = _paintSpace._width * _aspectRatioOriginalX;
+        }
+        if(_paintSpace._width != width)
+            _paintSpace._x = (width - _paintSpace._width)/2;
+        else
+            _paintSpace._x = 0;
+        if(_paintSpace._height != height)
+            _paintSpace._y = (height - _paintSpace._height)/2;
+        else
+            _paintSpace._y = 0;
+    }
 
 
     public void changeResolutionRatio(int width, int height){
@@ -32,40 +64,14 @@ public class Transform  implements Graphics{
             _paintSpace._y = 0;
     }
 
-    public Transform(Graphics graphics, int width, int height){
-        _graphics = graphics;
-        _paintSpace = new Rectangle(0,0,0,0);
-
-        _paintSpace._width = (width/_aspectRatioOriginalX);
-        _paintSpace._height = (height/_aspectRatioOriginalY);
-
-        if(_paintSpace._width > _paintSpace._height) {
-            _paintSpace._width = _paintSpace._height * _aspectRatioOriginalX;
-            _paintSpace._height = _paintSpace._height * _aspectRatioOriginalY;
-        }
-        else{
-            _paintSpace._height = _paintSpace._width * _aspectRatioOriginalY;
-            _paintSpace._width = _paintSpace._width * _aspectRatioOriginalX;
-        }
-        if(_paintSpace._width != width)
-            _paintSpace._x = (width - _paintSpace._width)/2;
-        else
-            _paintSpace._x = 0;
-        if(_paintSpace._height != height)
-            _paintSpace._y = (height - _paintSpace._height)/2;
-        else
-            _paintSpace._y = 0;
-    }
-
-
     @Override
     public Image newImage(String name) throws IOException {
-        return _graphics.newImage(name);
+        return newPrivateImage(name);
     }
 
     @Override
     public void clear(int color) {
-        _graphics.clear(color);
+        privateClear(color);
     }
 
     public void drawImage(Image image, int x, int y) {
@@ -73,7 +79,7 @@ public class Transform  implements Graphics{
         int newY = (y*_paintSpace._height)/_gameResolutionY;
 
 
-        _graphics.drawImage(image,newX, newY);
+        drawPrivateImage(image,newX,newY);
     }
 
 
@@ -87,8 +93,7 @@ public class Transform  implements Graphics{
 
         Rectangle rectGoalScalated = new Rectangle(newX, newY, newW,newH);
 
-        _graphics.drawRectToRect(image,rectOrigin,rectGoalScalated);
-
+        drawPrivateRectToRect(image,rectOrigin,rectGoalScalated);
     }
 
     @Override
@@ -101,34 +106,35 @@ public class Transform  implements Graphics{
         newY += _paintSpace._y;
         Rectangle rectGoalScalated = new Rectangle(newX, newY, newW,newH);
 
-        _graphics.drawRectToRect(image,rectOrigin,rectGoalScalated,alpha);
+        drawPrivateRectToRect(image,rectOrigin,rectGoalScalated,alpha);
     }
-
     @Override
     public int getColorSprite(Image image, int x, int y, int w, int h) {
-        return _graphics.getColorSprite(image,x,y,w,h);
+        return getPrivateColorSprite(image,x,y,w,h);
     }
-
     public int changeToGamelCoordenatesX(int x){
-        return x* _gameResolutionX/_paintSpace._width;
+        System.out.println(x + "  " +_paintSpace._width);
+
+        if(x <= _paintSpace._width + _paintSpace._x && x >= _paintSpace._x) {
+            if (_paintSpace._x != 0)
+                return (x-_paintSpace._x) * _gameResolutionX / _paintSpace._width;
+            else
+                return x * _gameResolutionX / _paintSpace._width;
+        }
+        return -1;
     }
     public int changeToGamelCoordenatesY(int y){
-        return y* _gameResolutionY/_paintSpace._height;
+        if(y <= _paintSpace._height + _paintSpace._y && y >= _paintSpace._y) {
+            if (_paintSpace._y != 0)
+                return (y-_paintSpace._y) * _gameResolutionY / _paintSpace._height;
+            else
+                return y * _gameResolutionY / _paintSpace._height;
+        }
+        return -1;
     }
-    @Override
-    public int getWidth() {
-        return _graphics.getWidth();
-    }
-
-    @Override
-    public int getHeight() {
-        return _graphics.getHeight();
-    }
-
     private int _gameResolutionX = 1080;
     private int _gameResolutionY = 1920;
     private int _aspectRatioOriginalX = 9;
     private int _aspectRatioOriginalY = 16;
     private Rectangle _paintSpace;
-    private Graphics _graphics;
 }

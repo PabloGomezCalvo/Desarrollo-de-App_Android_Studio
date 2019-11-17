@@ -30,13 +30,26 @@ public class LogicStateManager implements StateManager {
 
     public void spawActiveState(int i){
 
+        //ESTADO.MENU
         if(i == 0) {
             _activeState = new MenuState(this,_cNum);
             _activeState.init();
         }
-        else
-            _activeState = new MenuState(this,6);
+
+        //ESTADO.INSTRUCCIONES
+        else if(i == 1){
+            _activeState = new MenuInstructions(this,_cNum);
             _activeState.init();
+        }
+
+        //ESTADO.GAMEOVER
+        else if(i == 3) {
+            _activeState = new GameOverState(this, _cNum);
+            _activeState.init();
+        }
+        else
+            _activeState = new MenuState(this, 6);
+        _activeState.init();
     }
 
 

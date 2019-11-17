@@ -1,7 +1,5 @@
 package gdv.ucm.interfaces;
 
-import org.w3c.dom.events.Event;
-
 import java.util.List;
 
 public interface Input {
@@ -11,7 +9,9 @@ public interface Input {
         public enum EventType{
             Press,
             Release,
-            Dragg
+            Dragg,
+            EnteredScreen,
+            ExitScreen
         }
 
         public EventType _eventType;
