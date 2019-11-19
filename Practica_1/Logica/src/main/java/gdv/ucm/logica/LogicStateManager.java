@@ -41,10 +41,14 @@ public class LogicStateManager implements StateManager {
             _activeState = new MenuInstructions(this,_cNum);
             _activeState.init();
         }
-
+        //ESTADO.PLAY
+        else if(i == 2) {
+            _activeState = new PlayState(this, _cNum);
+            _activeState.init();
+        }
         //ESTADO.GAMEOVER
         else if(i == 3) {
-            _activeState = new GameOverState(this, _cNum);
+            _activeState = new GameOverState(this, _cNum,((PlayState)_activeState).getPoints());
             _activeState.init();
         }
         else

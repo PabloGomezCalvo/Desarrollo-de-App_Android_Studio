@@ -29,8 +29,6 @@ public class InputPC implements Input, MouseListener {
         _event._eventType = TouchEvent.EventType.Release;
         _event.pointerId = mouseEvent.getButton();
 
-        System.out.println(_event.x + "  " + _event.y);
-
         synchronized (this) {
             _inputStream.add(_event);
         }

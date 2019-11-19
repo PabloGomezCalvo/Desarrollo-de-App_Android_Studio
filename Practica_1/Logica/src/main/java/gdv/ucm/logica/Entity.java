@@ -9,8 +9,8 @@ public class Entity {
     public Entity(Sprite sprite, Rectangle position){
         _sprite = sprite;
         _rectFinal = position;
-        _x = 0;
-        _y = 0;
+        _x = position._x;
+        _y = position._y;
         _xImage = sprite.get_rectTexture()._x;
         _yImage = sprite.get_rectTexture()._y;
     }
