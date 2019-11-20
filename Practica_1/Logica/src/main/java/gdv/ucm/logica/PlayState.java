@@ -9,9 +9,9 @@ import gdv.ucm.utilities.Sprite;
 
 public class PlayState implements State {
 
-    public PlayState(LogicStateManager logicStateManager, int numColor){
+    public PlayState(LogicStateManager logicStateManager){
         _logicStateManager = logicStateManager;
-        _numColor = numColor;
+        _numColor = _logicStateManager.swapColor();
         _whiteFlash = true;
         _entityVector = new Entity[12];
         _points = 0;

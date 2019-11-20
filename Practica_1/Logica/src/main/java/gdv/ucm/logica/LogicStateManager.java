@@ -44,7 +44,7 @@ public class LogicStateManager implements StateManager {
         }
         //ESTADO.PLAY
         else if(i == 2) {
-            _activeState = new PlayState(this, _cNum);
+            _activeState = new PlayState(this);
             _activeState.init();
         }
         //ESTADO.GAMEOVER
@@ -57,7 +57,10 @@ public class LogicStateManager implements StateManager {
         _activeState.init();
     }
 
-
+    public int swapColor(){
+        _cNum = (int)(Math.random()* (_totalColors-1));
+        return _cNum;
+    }
 
     private int _totalColors = 9;
     private int _cNum;
