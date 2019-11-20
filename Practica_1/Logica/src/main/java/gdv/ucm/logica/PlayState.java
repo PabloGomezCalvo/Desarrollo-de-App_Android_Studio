@@ -13,15 +13,15 @@ public class PlayState implements State {
         _logicStateManager = logicStateManager;
         _numColor = numColor;
         _whiteFlash = true;
-        _entityVector = new Entity[9];
+        _entityVector = new Entity[12];
         _points = 0;
         _totalBalls = 5;
         _gameOver = false;
         _ballsVel = 430;
         _ballsStartVel = 430;
         _ballsStartPosX = (1080/2) - (128/2);
-        _ballActive = 4;
-        _ballStartVector = 4;
+        _ballActive = 3;
+        _ballStartVector = 3;
         _ballSeparation = 395;
     }
 
@@ -37,15 +37,15 @@ public class PlayState implements State {
                     new Sprite(_logicStateManager.getGame().getGraphics().
                             newImage("players.png"),new Rectangle(0,0,528,192)),
                     new Rectangle((1080/2)-(528/2),1200,528 ,192),0);
-            _entityVector[3] = new EntitySwapper(
-                    new Sprite(_logicStateManager.getGame().getGraphics().
-                            newImage("scoreFont.png"),new Rectangle(0,0,528,192)),
-                    new Rectangle((1080/2)-(528/2),1200,528 ,192),0);
 
-            _entityVector[4] = new EntitySwapper(
+            _entityVector[3] = new EntitySwapper(
                     new Sprite(_logicStateManager.getGame().getGraphics().
                             newImage("balls.png"),new Rectangle(0,0,128,128)),
                     new Rectangle(_ballsStartPosX,0,128 ,128),0);
+            _entityVector[4] = new EntitySwapper(
+                    new Sprite(_logicStateManager.getGame().getGraphics().
+                            newImage("balls.png"),new Rectangle(0,0,128,128)),
+                    new Rectangle(-1,0,128 ,128),0);
             _entityVector[5] = new EntitySwapper(
                     new Sprite(_logicStateManager.getGame().getGraphics().
                             newImage("balls.png"),new Rectangle(0,0,128,128)),
@@ -58,10 +58,22 @@ public class PlayState implements State {
                     new Sprite(_logicStateManager.getGame().getGraphics().
                             newImage("balls.png"),new Rectangle(0,0,128,128)),
                     new Rectangle(-1,0,128 ,128),0);
-            _entityVector[8] = new EntitySwapper(
+
+            //POINTS AS NUMBERS
+
+            _entityVector[8] = new Entity( //160 h y 125 w
                     new Sprite(_logicStateManager.getGame().getGraphics().
-                            newImage("balls.png"),new Rectangle(0,0,128,128)),
-                    new Rectangle(-1,0,128 ,128),0);
+                            newImage("scoreFont.png"),new Rectangle(0,0,125,160)),
+                    new Rectangle(780,200,125 ,160));
+            _entityVector[9] = new Entity( //160 h y 125 w
+                    new Sprite(_logicStateManager.getGame().getGraphics().
+                            newImage("scoreFont.png"),new Rectangle(0,0,125,160)),
+                    new Rectangle(840,200,125 ,160));
+            _entityVector[10] = new Entity( //160 h y 125 w
+                    new Sprite(_logicStateManager.getGame().getGraphics().
+                            newImage("scoreFont.png"),new Rectangle(0,0,125,160)),
+                    new Rectangle(900,200,125 ,160));
+
             int color = _logicStateManager.getGame().getGraphics().getColorSprite(_logicStateManager.getGame().getGraphics().
                     newImage("backgrounds.png"), 32 * _numColor,0,32,32);
 
@@ -73,6 +85,8 @@ public class PlayState implements State {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        checkNumber();
+
     }
 
     @Override
@@ -83,11 +97,13 @@ public class PlayState implements State {
         _logicStateManager.getGame().getGraphics().drawRectToRect(_entityVector[2].getImage(),
                 _entityVector[2].getRectOrigin(),_entityVector[2].getPosRectangle());//player
 
-        for(int i = _ballStartVector; i < _ballStartVector + _totalBalls;i++){
-            if(_entityVector[i].getPosRectangle()._x != -1)
+        //BALLS PAINT and POINTS
+        for(int i = _ballStartVector; i < _entityVector.length;i++){
+            if(_entityVector[i].getPosX() != -1)
                 _logicStateManager.getGame().getGraphics().drawRectToRect(_entityVector[i].getImage(),
                         _entityVector[i].getRectOrigin(),_entityVector[i].getPosRectangle());//ball
         }
+
 
         if(_whiteFlash){
             _whiteFlash = false;
@@ -109,10 +125,11 @@ public class PlayState implements State {
                 _entityVector[i].moveEntity(_entityVector[i].getPosX(), _entityVector[i].getPosY() + _ballsVel * deltaTime);
         }
 
-        for(int i = 3; i < 3 + _totalBalls;i++){//collision with balls
+        for(int i = _ballStartVector; i < _ballStartVector + _totalBalls;i++){//collision with balls
             if(checkCollision(_entityVector[2].getPosRectangle(),_entityVector[i].getPosRectangle())) {
                 if (((EntitySwapper) _entityVector[2]).getMode() == ((EntitySwapper) _entityVector[i]).getMode()) {
                     _points++;
+                    checkNumber();
                     _ballsVel = _ballsStartVel + (_points/10) * 90;
                 } else
                     _gameOver = true;
@@ -173,6 +190,81 @@ public class PlayState implements State {
 
                 i++;
             }
+        }
+    }
+
+    private void checkNumber(){
+        if(_points > 99){
+            _entityVector[8].moveEntity(780,_entityVector[8].getPosY());
+            int a = _points % 10;
+            int b = (_points/10)%10;
+            int c = (_points/100)%10;
+            putNumberFont(8,c);
+            putNumberFont(9,b);
+            putNumberFont(10,a);
+        }
+        else{
+            if(_points > 9){
+                _entityVector[8].moveEntity(-1,_entityVector[8].getPosY());
+                _entityVector[9].moveEntity(840,_entityVector[9].getPosY());
+                int a = _points % 10;
+                int b = ((_points - a)/10)%10;
+                putNumberFont(9,b);
+                putNumberFont(10,a);
+            }
+            else{
+                _entityVector[8].moveEntity(-1,_entityVector[8].getPosY());
+                _entityVector[9].moveEntity(-1,_entityVector[9].getPosY());
+                putNumberFont(10,_points);
+            }
+        }
+
+    }
+
+    private void putNumberFont(int index, int valor){
+        switch (valor){
+            case 0:
+                _entityVector[index].getRectOrigin()._x = 7 * 125;
+                _entityVector[index].getRectOrigin()._y = 3 * 160;
+                break;
+            case 1:
+                _entityVector[index].getRectOrigin()._x = 8 * 125;
+                _entityVector[index].getRectOrigin()._y = 3 * 160;
+                break;
+            case 2:
+                _entityVector[index].getRectOrigin()._x = 9 * 125;
+                _entityVector[index].getRectOrigin()._y = 3 * 160;
+                break;
+            case 3:
+                _entityVector[index].getRectOrigin()._x = 10 * 125;
+                _entityVector[index].getRectOrigin()._y = 3 * 160;
+                break;
+            case 4:
+                _entityVector[index].getRectOrigin()._x = 11 * 125;
+                _entityVector[index].getRectOrigin()._y = 3 * 160;
+                break;
+            case 5:
+                _entityVector[index].getRectOrigin()._x = 12 * 125;
+                _entityVector[index].getRectOrigin()._y = 3 * 160;
+                break;
+            case 6:
+                _entityVector[index].getRectOrigin()._x = 13 * 125;
+                _entityVector[index].getRectOrigin()._y = 3 * 160;
+                break;
+            case 7:
+                _entityVector[index].getRectOrigin()._x = 14 * 125;
+                _entityVector[index].getRectOrigin()._y = 3 * 160;
+                break;
+            case 8:
+                _entityVector[index].getRectOrigin()._x = 0;
+                _entityVector[index].getRectOrigin()._y = 4 * 160;
+                break;
+            case 9:
+                _entityVector[index].getRectOrigin()._x = 125;
+                _entityVector[index].getRectOrigin()._y = 4 * 160;
+                break;
+            default:
+                break;
         }
     }
 

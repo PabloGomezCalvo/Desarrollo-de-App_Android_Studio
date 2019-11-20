@@ -1,5 +1,6 @@
 package gdv.ucm.logica;
 
+
 import gdv.ucm.interfaces.Game;
 import gdv.ucm.interfaces.StateManager;
 
@@ -48,7 +49,7 @@ public class LogicStateManager implements StateManager {
         }
         //ESTADO.GAMEOVER
         else if(i == 3) {
-            _activeState = new GameOverState(this, _cNum,((PlayState)_activeState).getPoints());
+            _activeState = new GameOverState(this, _cNum,(((PlayState)_activeState).getPoints()));
             _activeState.init();
         }
         else

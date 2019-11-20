@@ -81,7 +81,6 @@ public class MenuInstructions implements State {
         while(!inputStream.isEmpty()){
             Input.TouchEvent event = inputStream.get(0);
             inputStream.remove(0);
-            //TODO: CAMBIAR QUE CENTRO VAYA A ESTADO.GAMEOBJECT Y VAYA A ESTADO.JUEGO
 
             if(event._eventType == Input.TouchEvent.EventType.Release
                     && event.y <= _entityVector[5]._rectFinal._y + _entityVector[5]._rectFinal._height && event.y >= _entityVector[5]._rectFinal._y

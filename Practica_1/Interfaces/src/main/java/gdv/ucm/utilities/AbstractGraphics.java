@@ -113,8 +113,6 @@ public abstract class AbstractGraphics implements Graphics {
         return getPrivateColorSprite(image,x,y,w,h);
     }
     public int changeToGamelCoordenatesX(int x){
-        System.out.println(x + "  " +_paintSpace._width);
-
         if(x <= _paintSpace._width + _paintSpace._x && x >= _paintSpace._x) {
             if (_paintSpace._x != 0)
                 return (x-_paintSpace._x) * _gameResolutionX / _paintSpace._width;
