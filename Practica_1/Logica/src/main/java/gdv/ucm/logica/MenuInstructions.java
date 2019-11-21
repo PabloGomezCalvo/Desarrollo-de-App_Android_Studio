@@ -14,6 +14,7 @@ public class MenuInstructions implements State {
         _entityVector = new Entity[6];
         _numColor = numColor;
         _whiteFlash = true;
+        _whiteFlashAlpha = 1.0f;
     }
 
     @Override
@@ -56,6 +57,7 @@ public class MenuInstructions implements State {
 
     @Override
     public void render() {
+
         _logicStateManager.getGame().getGraphics().drawRectToRect(_entityVector[1].getImage(),
                 _entityVector[1].getRectOrigin(), _entityVector[1].getPosRectangle(),
                 ((EntityBackgroundArrows) _entityVector[1]).getColor());
@@ -63,38 +65,44 @@ public class MenuInstructions implements State {
             _logicStateManager.getGame().getGraphics().drawRectToRect(_entityVector[i].getImage(),
                     _entityVector[i].getRectOrigin(), _entityVector[i].getPosRectangle());
 
-        if(_whiteFlash){
-            _whiteFlash = false;
+        if (_whiteFlash) {
+            if (_whiteFlashAlpha <= 0.0f)
+                _whiteFlash = false;
             _logicStateManager.getGame().getGraphics().drawRectToRect(_entityVector[0].getImage(),
-                    _entityVector[0].getRectOrigin(), _entityVector[0].getPosRectangle());
+                    _entityVector[0].getRectOrigin(), _entityVector[0].getPosRectangle(), _whiteFlashAlpha);
+            _whiteFlashAlpha -= 0.025;
         }
     }
 
     @Override
     public void update(float deltaTime) {
+
         _entityVector[1].moveSurfaceImage(_entityVector[1].getPosImgX(),
                 _entityVector[1].getPosImgY() - 384 * deltaTime); //muevo el fondoDeArrows
 
+        if(!_whiteFlash) {
 
-        List<Input.TouchEvent> inputStream = _logicStateManager.getGame().getInput().getTouchEvents();
+            List<Input.TouchEvent> inputStream = _logicStateManager.getGame().getInput().getTouchEvents();
 
-        while(!inputStream.isEmpty()){
-            Input.TouchEvent event = inputStream.get(0);
-            inputStream.remove(0);
+            while (!inputStream.isEmpty()) {
+                Input.TouchEvent event = inputStream.get(0);
+                inputStream.remove(0);
 
-            if(event._eventType == Input.TouchEvent.EventType.Release
-                    && event.y <= _entityVector[5]._rectFinal._y + _entityVector[5]._rectFinal._height && event.y >= _entityVector[5]._rectFinal._y
-                    && event.x <= _entityVector[5]._rectFinal._x + _entityVector[5]._rectFinal._width && event.x >= _entityVector[5]._rectFinal._x)
-                _logicStateManager.spawActiveState(2);
-            else if(event._eventType == Input.TouchEvent.EventType.Release
-                    && event.y <= _entityVector[1]._rectFinal._y + _entityVector[1]._rectFinal._height && event.y >= _entityVector[1]._rectFinal._y
-                    && event.x <= _entityVector[1]._rectFinal._x + _entityVector[1]._rectFinal._width && event.x >= _entityVector[1]._rectFinal._x){
-                _logicStateManager.spawActiveState(2);
+                if (event._eventType == Input.TouchEvent.EventType.Release
+                        && event.y <= _entityVector[5]._rectFinal._y + _entityVector[5]._rectFinal._height && event.y >= _entityVector[5]._rectFinal._y
+                        && event.x <= _entityVector[5]._rectFinal._x + _entityVector[5]._rectFinal._width && event.x >= _entityVector[5]._rectFinal._x)
+                    _logicStateManager.spawActiveState(2);
+                else if (event._eventType == Input.TouchEvent.EventType.Release
+                        && event.y <= _entityVector[1]._rectFinal._y + _entityVector[1]._rectFinal._height && event.y >= _entityVector[1]._rectFinal._y
+                        && event.x <= _entityVector[1]._rectFinal._x + _entityVector[1]._rectFinal._width && event.x >= _entityVector[1]._rectFinal._x) {
+                    _logicStateManager.spawActiveState(2);
+                }
             }
         }
     }
 
     private boolean _whiteFlash;
+    private float _whiteFlashAlpha;
     private int _numColor;
     private LogicStateManager _logicStateManager;
     private Entity _entityVector [];

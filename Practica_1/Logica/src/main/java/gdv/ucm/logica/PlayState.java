@@ -2,7 +2,6 @@ package gdv.ucm.logica;
 
 import java.io.IOException;
 import java.util.List;
-
 import gdv.ucm.interfaces.Input;
 import gdv.ucm.utilities.Rectangle;
 import gdv.ucm.utilities.Sprite;
@@ -13,6 +12,7 @@ public class PlayState implements State {
         _logicStateManager = logicStateManager;
         _numColor = _logicStateManager.swapColor();
         _whiteFlash = true;
+        _whiteFlashAlpha = 1.0f;
         _entityVector = new Entity[11];
         _points = 0;
         _totalBalls = 5;
@@ -37,28 +37,28 @@ public class PlayState implements State {
             _entityVector[2] = new EntitySwapper(
                     new Sprite(_logicStateManager.getGame().getGraphics().
                             newImage("players.png"),new Rectangle(0,0,528,192)),
-                    new Rectangle((1080/2)-(528/2),1200,528 ,192),0);
+                    new Rectangle((1080/2)-(528/2),1200,528 ,192),0,true);
 
             _entityVector[3] = new EntitySwapper(
                     new Sprite(_logicStateManager.getGame().getGraphics().
                             newImage("balls.png"),new Rectangle(0,0,128,128)),
-                    new Rectangle(_ballsStartPosX,0,128 ,128),0);
+                    new Rectangle(_ballsStartPosX,0,128 ,128),0,true);
             _entityVector[4] = new EntitySwapper(
                     new Sprite(_logicStateManager.getGame().getGraphics().
                             newImage("balls.png"),new Rectangle(0,0,128,128)),
-                    new Rectangle(-1,0,128 ,128),0);
+                    new Rectangle(-1,0,128 ,128),0,true);
             _entityVector[5] = new EntitySwapper(
                     new Sprite(_logicStateManager.getGame().getGraphics().
                             newImage("balls.png"),new Rectangle(0,0,128,128)),
-                    new Rectangle(-1,0,128 ,128),0);
+                    new Rectangle(-1,0,128 ,128),0,true);
             _entityVector[6] = new EntitySwapper(
                     new Sprite(_logicStateManager.getGame().getGraphics().
                             newImage("balls.png"),new Rectangle(0,0,128,128)),
-                    new Rectangle(-1,0,128 ,128),0);
+                    new Rectangle(-1,0,128 ,128),0,true);
             _entityVector[7] = new EntitySwapper(
                     new Sprite(_logicStateManager.getGame().getGraphics().
                             newImage("balls.png"),new Rectangle(0,0,128,128)),
-                    new Rectangle(-1,0,128 ,128),0);
+                    new Rectangle(-1,0,128 ,128),0,true);
 
             //POINTS AS NUMBERS
 
@@ -86,7 +86,7 @@ public class PlayState implements State {
 
             _animation = new Animation(new Sprite(_logicStateManager.getGame().getGraphics().
                     newImage("balls.png"),new Rectangle(0,0,128,128))
-                    ,(1080/2) - 25,1150,0.8f);
+                    ,(1080/2) - 25,1150,1.0f);
 
 
         } catch (IOException e) {
@@ -98,69 +98,83 @@ public class PlayState implements State {
 
     @Override
     public void render() {
+
         _logicStateManager.getGame().getGraphics().drawRectToRect(_entityVector[1].getImage(),
-                _entityVector[1].getRectOrigin(),_entityVector[1].getPosRectangle(),
-                ((EntityBackgroundArrows)_entityVector[1]).getColor());//arrows
-        _logicStateManager.getGame().getGraphics().drawRectToRect(_entityVector[2].getImage(),
-                _entityVector[2].getRectOrigin(),_entityVector[2].getPosRectangle());//player
+                _entityVector[1].getRectOrigin(), _entityVector[1].getPosRectangle(),
+                ((EntityBackgroundArrows) _entityVector[1]).getColor());//arrows
+        if (!_gameOver) {
+            _logicStateManager.getGame().getGraphics().drawRectToRect(_entityVector[2].getImage(),
+                    _entityVector[2].getRectOrigin(), _entityVector[2].getPosRectangle());//player
 
-        //BALLS PAINT and POINTS
-        for(int i = _ballStartVector; i < _entityVector.length;i++){
-            if(_entityVector[i].getPosX() != -1)
+            //BALLS PAINT
+            for (int i = _ballStartVector; i < _totalBalls; i++) {
+                if (_entityVector[i].getPosX() != -1)
+                    _logicStateManager.getGame().getGraphics().drawRectToRect(_entityVector[i].getImage(),
+                            _entityVector[i].getRectOrigin(), _entityVector[i].getPosRectangle());//ball
+            }
+        }
+        //POINTS PAINT
+        for (int i = _totalBalls; i < _entityVector.length; i++)
+            if (_entityVector[i].getPosX() != -1)
                 _logicStateManager.getGame().getGraphics().drawRectToRect(_entityVector[i].getImage(),
-                        _entityVector[i].getRectOrigin(),_entityVector[i].getPosRectangle());//ball
-        }
+                        _entityVector[i].getRectOrigin(), _entityVector[i].getPosRectangle());
 
-        if(_whiteFlash){
-            _whiteFlash = false;
-            _logicStateManager.getGame().getGraphics().drawRectToRect(_entityVector[0].getImage(),
-                    _entityVector[0].getRectOrigin(), _entityVector[0].getPosRectangle());
-        }
 
-        if(_animation.isActive())
-            for(int i = 0; i < _animation.getTotalBalls(); i++) {
+        if (_animation.isActive())
+            for (int i = 0; i < _animation.getTotalBalls(); i++) {
                 _logicStateManager.getGame().getGraphics().drawRectToRect(_animation.getSprite().get_img(),
                         _animation.getSprite().get_rectTexture(), _animation.getFinalRect(i),
                         _animation.getAlpha());
-
             }
+
+        if (_whiteFlash) {
+            if (_whiteFlashAlpha <= 0.0f)
+                _whiteFlash = false;
+            _logicStateManager.getGame().getGraphics().drawRectToRect(_entityVector[0].getImage(),
+                    _entityVector[0].getRectOrigin(), _entityVector[0].getPosRectangle(), _whiteFlashAlpha);
+            _whiteFlashAlpha -= 0.025;
+        }
     }
 
     @Override
     public void update(float deltaTime) {
+
         _entityVector[1].moveSurfaceImage(_entityVector[1].getPosImgX(),
                 _entityVector[1].getPosImgY() - 384 * deltaTime); //muevo el fondoDeArrows
 
-        checkInput();
-        ballsFalling(); // check if we need to throw another ball, if so then do it
+        if(!_whiteFlash) {
 
-        for(int i = _ballStartVector; i < _ballStartVector + _totalBalls;i++) { // MOVE ACTIVES BALLS
-            if (_entityVector[i].getPosRectangle()._x != -1)
-                _entityVector[i].moveEntity(_entityVector[i].getPosX(), _entityVector[i].getPosY() + _ballsVel * deltaTime);
-        }
+            ballsFalling(); // check if we need to throw another ball, if so then do it
 
-        for(int i = _ballStartVector; i < _ballStartVector + _totalBalls;i++){//collision with balls
-            if(checkCollision(_entityVector[2].getPosRectangle(),_entityVector[i].getPosRectangle())) {
-                if (((EntitySwapper) _entityVector[2]).getMode() == ((EntitySwapper) _entityVector[i]).getMode()) {
-                    _points++;
-                    checkNumber();
-                    _animation.PutColor(((EntitySwapper) _entityVector[i]).getMode());
-                    _animation.resetAnimation();
-                    _ballsVel = _ballsStartVel + (_points/10) * 90;
-                } else
-                    _gameOver = true;
-
-                _entityVector[i].moveEntity(-1,0);
+            for (int i = _ballStartVector; i < _ballStartVector + _totalBalls; i++) { // MOVE ACTIVES BALLS
+                if (_entityVector[i].getPosRectangle()._x != -1)
+                    _entityVector[i].moveEntity(_entityVector[i].getPosX(), _entityVector[i].getPosY() + _ballsVel * deltaTime);
             }
+            if (!_gameOver) {
+                checkInput();
+                for (int i = _ballStartVector; i < _ballStartVector + _totalBalls; i++) {//collision with balls
+                    if (checkCollision(_entityVector[2].getPosRectangle(), _entityVector[i].getPosRectangle())) {
+                        if (((EntitySwapper) _entityVector[2]).getMode() == ((EntitySwapper) _entityVector[i]).getMode()) {
+                            _points++;
+                            checkNumber();
+                            _animation.PutColor(((EntitySwapper) _entityVector[i]).getMode());
+                            _animation.resetAnimation();
+                            _ballsVel = _ballsStartVel + (_points / 10) * 90;
+                        } else {
+                            _animation.PutColor(((EntitySwapper) _entityVector[2]).getMode());
+                            _animation.resetAnimation();
+                            _gameOver = true;
+                        }
+                        _entityVector[i].moveEntity(-1, 0);
+                    }
+                }
+            }
+            if (_animation.isActive()) {
+                _animation.simulate();
+            } else if (!_animation.isActive() && _gameOver)
+                _logicStateManager.spawActiveState(3);
+
         }
-
-        if(_gameOver){
-            _logicStateManager.spawActiveState(3);
-        }
-
-        if(_animation.isActive())
-            _animation.simulate();
-
     }
 
     public int getPoints(){
@@ -222,20 +236,19 @@ public class PlayState implements State {
             putNumberFont(9,b);
             putNumberFont(10,a);
         }
-        else{
-            if(_points > 9){
-                _entityVector[8].moveEntity(-1,_entityVector[8].getPosY());
-                _entityVector[9].moveEntity(840,_entityVector[9].getPosY());
-                int a = _points % 10;
-                int b = ((_points - a)/10)%10;
-                putNumberFont(9,b);
-                putNumberFont(10,a);
-            }
-            else{
-                _entityVector[8].moveEntity(-1,_entityVector[8].getPosY());
-                _entityVector[9].moveEntity(-1,_entityVector[9].getPosY());
-                putNumberFont(10,_points);
-            }
+        else if(_points > 9) {
+            _entityVector[8].moveEntity(-1, _entityVector[8].getPosY());
+            _entityVector[9].moveEntity(840, _entityVector[9].getPosY());
+            int a = _points % 10;
+            int b = ((_points - a) / 10) % 10;
+            putNumberFont(9, b);
+            putNumberFont(10, a);
+        }
+        else {
+            _entityVector[8].moveEntity(-1, _entityVector[8].getPosY());
+            _entityVector[9].moveEntity(-1, _entityVector[9].getPosY());
+            putNumberFont(10, _points);
+
         }
 
     }
@@ -298,6 +311,7 @@ public class PlayState implements State {
     private int _totalBalls;
     private int _points;
     private boolean _whiteFlash;
+    private float _whiteFlashAlpha;
     private int _numColor;
     private LogicStateManager _logicStateManager;
     private Entity _entityVector [];

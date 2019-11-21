@@ -15,6 +15,7 @@ public class GameOverState implements State {
         _numColor = numColor;
         _whiteFlash = true;
         _points = points;
+        _whiteFlashAlpha = 1.0f;
     }
 
     @Override
@@ -32,10 +33,10 @@ public class GameOverState implements State {
                     new Sprite(_logicStateManager.getGame().getGraphics().
                             newImage("playAgain.png"),new Rectangle(0,0,532,72)),
                     new Rectangle((1080/2)-(532/2),1400,532 ,72));
-            _entityVector[4] = new Entity(
+            _entityVector[4] = new EntitySwapper(
                     new Sprite(_logicStateManager.getGame().getGraphics().
                             newImage("buttons.png"),new Rectangle(140*2,0,140,140)),
-                    new Rectangle(50,200,140 ,140));
+                    new Rectangle(50,200,140 ,140),0,false);
             _entityVector[5] = new Entity(
                     new Sprite(_logicStateManager.getGame().getGraphics().
                             newImage("buttons.png"),new Rectangle(0,0,140,140)),
@@ -68,7 +69,6 @@ public class GameOverState implements State {
                     new Rectangle((1080/2)+ (100*2),1000,125 ,160));
 
             //POINTS AS NUMBERS
-
             _entityVector[12] = new Entity( //160 h y 125 w
                     new Sprite(_logicStateManager.getGame().getGraphics().
                             newImage("scoreFont.png"),new Rectangle(0,0,125,160)),
@@ -103,46 +103,55 @@ public class GameOverState implements State {
     public void render() {
 
         _logicStateManager.getGame().getGraphics().drawRectToRect(_entityVector[1].getImage(),
-                _entityVector[1].getRectOrigin(),_entityVector[1].getPosRectangle(),
-                ((EntityBackgroundArrows)_entityVector[1]).getColor());
-        for(int i = 2; i < _entityVector.length;i++)
-            if(_entityVector[i].getPosX() != -1)
+                _entityVector[1].getRectOrigin(), _entityVector[1].getPosRectangle(),
+                ((EntityBackgroundArrows) _entityVector[1]).getColor());
+        for (int i = 2; i < _entityVector.length; i++)
+            if (_entityVector[i].getPosX() != -1)
                 _logicStateManager.getGame().getGraphics().drawRectToRect(_entityVector[i].getImage(),
-                        _entityVector[i].getRectOrigin(),_entityVector[i].getPosRectangle());
+                        _entityVector[i].getRectOrigin(), _entityVector[i].getPosRectangle());
 
-        if(_whiteFlash){
-            _whiteFlash = false;
+        if (_whiteFlash) {
+            if (_whiteFlashAlpha <= 0.0f)
+                _whiteFlash = false;
             _logicStateManager.getGame().getGraphics().drawRectToRect(_entityVector[0].getImage(),
-                    _entityVector[0].getRectOrigin(), _entityVector[0].getPosRectangle());
+                    _entityVector[0].getRectOrigin(), _entityVector[0].getPosRectangle(), _whiteFlashAlpha);
+            _whiteFlashAlpha -= 0.025;
         }
-
     }
 
     @Override
     public void update(float deltaTime) {
-
-
         _entityVector[1].moveSurfaceImage(_entityVector[0].getPosImgX(),
                 _entityVector[1].getPosImgY() - 384 * deltaTime); //muevo el fondoDeArrows
 
+        if(!_whiteFlash) {
 
-        List<Input.TouchEvent> inputStream = _logicStateManager.getGame().getInput().getTouchEvents();
+            List<Input.TouchEvent> inputStream = _logicStateManager.getGame().getInput().getTouchEvents();
 
-        while(!inputStream.isEmpty()){
-            Input.TouchEvent event = inputStream.get(0);
-            inputStream.remove(0);
-            if(event._eventType == Input.TouchEvent.EventType.Release
-                    && event.y <= _entityVector[5]._rectFinal._y + _entityVector[5]._rectFinal._height && event.y >= _entityVector[5]._rectFinal._y
-                    && event.x <= _entityVector[5]._rectFinal._x + _entityVector[5]._rectFinal._width && event.x >= _entityVector[5]._rectFinal._x)
-                _logicStateManager.spawActiveState(1);
+            boolean selected = false;
 
-                //TODO: TAP TO PLAY -> ESTADO.PLAY EN VEZ DE AL ESTADO.MENU
+            while (!inputStream.isEmpty()) {
+                Input.TouchEvent event = inputStream.get(0);
+                inputStream.remove(0);
+                if (event._eventType == Input.TouchEvent.EventType.Release
+                        && event.y <= _entityVector[5]._rectFinal._y + _entityVector[5]._rectFinal._height && event.y >= _entityVector[5]._rectFinal._y
+                        && event.x <= _entityVector[5]._rectFinal._x + _entityVector[5]._rectFinal._width && event.x >= _entityVector[5]._rectFinal._x)
+                    _logicStateManager.spawActiveState(1);
 
-            else if(event._eventType == Input.TouchEvent.EventType.Release
-                    && event.y <= _entityVector[1]._rectFinal._y + _entityVector[1]._rectFinal._height && event.y >= _entityVector[1]._rectFinal._y
-                    && event.x <= _entityVector[1]._rectFinal._x + _entityVector[1]._rectFinal._width && event.x >= _entityVector[1]._rectFinal._x)
-                _logicStateManager.spawActiveState(2);
+                    //TODO: TAP TO PLAY -> ESTADO.PLAY EN VEZ DE AL ESTADO.MENU
 
+                else if (event._eventType == Input.TouchEvent.EventType.Release
+                        && event.y <= _entityVector[1]._rectFinal._y + _entityVector[1]._rectFinal._height && event.y >= _entityVector[1]._rectFinal._y
+                        && event.x <= _entityVector[1]._rectFinal._x + _entityVector[1]._rectFinal._width && event.x >= _entityVector[1]._rectFinal._x)
+                    _logicStateManager.spawActiveState(2);
+
+                else if (event._eventType == Input.TouchEvent.EventType.Release && !selected
+                        && event.y <= _entityVector[4]._rectFinal._y + _entityVector[4]._rectFinal._height && event.y >= _entityVector[4]._rectFinal._y
+                        && event.x <= _entityVector[4]._rectFinal._x + _entityVector[4]._rectFinal._width && event.x >= _entityVector[4]._rectFinal._x) {
+                    ((EntitySwapper) _entityVector[4]).swapper();
+                    selected = true;
+                }
+            }
         }
     }
 
@@ -155,23 +164,22 @@ public class GameOverState implements State {
             putNumberFont(13,b);
             putNumberFont(14,a);
         }
-        else{
-            if(_points > 9){
-                _entityVector[12].moveEntity(-1,_entityVector[12].getPosY());
-                _entityVector[13].moveEntity((1080/2) - 100,_entityVector[12].getPosY());
-                _entityVector[14].moveEntity((1080/2),_entityVector[12].getPosY());
-                int a = _points % 10;
-                int b = ((_points - a)/10)%10;
-                putNumberFont(13,b);
-                putNumberFont(14,a);
-            }
-            else{
-                _entityVector[12].moveEntity(-1,_entityVector[12].getPosY());
-                _entityVector[13].moveEntity(-1,_entityVector[12].getPosY());
-                _entityVector[14].moveEntity((1080/2) - 50,_entityVector[12].getPosY());
-                putNumberFont(14,_points);
-            }
+        else if(_points > 9) {
+            _entityVector[12].moveEntity(-1, _entityVector[12].getPosY());
+            _entityVector[13].moveEntity((1080 / 2) - 100, _entityVector[12].getPosY());
+            _entityVector[14].moveEntity((1080 / 2), _entityVector[12].getPosY());
+            int a = _points % 10;
+            int b = ((_points - a) / 10) % 10;
+            putNumberFont(13, b);
+            putNumberFont(14, a);
         }
+        else {
+            _entityVector[12].moveEntity(-1, _entityVector[12].getPosY());
+            _entityVector[13].moveEntity(-1, _entityVector[12].getPosY());
+            _entityVector[14].moveEntity((1080 / 2) - 50, _entityVector[12].getPosY());
+            putNumberFont(14, _points);
+        }
+
 
     }
 
@@ -224,6 +232,7 @@ public class GameOverState implements State {
 
     private int _points;
     private boolean _whiteFlash;
+    private float _whiteFlashAlpha;
     private int _numColor;
     private LogicStateManager _logicStateManager;
     private Entity _entityVector [];

@@ -4,20 +4,30 @@ import gdv.ucm.utilities.Rectangle;
 import gdv.ucm.utilities.Sprite;
 
 public class EntitySwapper extends Entity {
-    public EntitySwapper(Sprite sprite, Rectangle position,int mode) {
+    public EntitySwapper(Sprite sprite, Rectangle position,int mode,boolean isVertical) {
         super(sprite, position);
-        _hSwapper = sprite.get_rectTexture()._height;
+        _isVertical = isVertical;
+        if(isVertical)
+            _swapper = sprite.get_rectTexture()._height;
+        else
+            _swapper = sprite.get_rectTexture()._width;
         _mode = mode;
     }
 
     public void swapper(){
 
         if(_mode == 0){
-            _sprite.get_rectTexture()._y = _hSwapper;
+            if(_isVertical)
+                _sprite.get_rectTexture()._y = _swapper;
+            else
+                _sprite.get_rectTexture()._x += _swapper;
             _mode = 1;
         }
         else {
-            _sprite.get_rectTexture()._y = 0;
+            if(_isVertical)
+                _sprite.get_rectTexture()._y = 0;
+            else
+                _sprite.get_rectTexture()._x -= _swapper;
             _mode = 0;
         }
     }
@@ -33,11 +43,12 @@ public class EntitySwapper extends Entity {
             _mode = 0;
         }
         else {
-            _sprite.get_rectTexture()._y = _hSwapper;
+            _sprite.get_rectTexture()._y = _swapper;
             _mode = 1;
         }
     }
 
-    private int _hSwapper;
+    private boolean _isVertical;
+    private int _swapper;
     private int _mode;
 }
