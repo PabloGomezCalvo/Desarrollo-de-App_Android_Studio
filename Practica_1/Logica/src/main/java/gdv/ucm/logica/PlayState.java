@@ -13,7 +13,7 @@ public class PlayState implements State {
         _logicStateManager = logicStateManager;
         _numColor = _logicStateManager.swapColor();
         _whiteFlash = true;
-        _entityVector = new Entity[12];
+        _entityVector = new Entity[11];
         _points = 0;
         _totalBalls = 5;
         _gameOver = false;
@@ -23,6 +23,7 @@ public class PlayState implements State {
         _ballActive = 3;
         _ballStartVector = 3;
         _ballSeparation = 395;
+
     }
 
     @Override
@@ -82,6 +83,12 @@ public class PlayState implements State {
                             newImage("arrowsBackground.png"),new Rectangle(0,1150,676,1920)),
                     new Rectangle((1080/2)-(676/2),0,676 ,1920),color);
 
+
+            _animation = new Animation(new Sprite(_logicStateManager.getGame().getGraphics().
+                    newImage("balls.png"),new Rectangle(0,0,128,128))
+                    ,(1080/2) - 25,1150,0.8f);
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -104,12 +111,19 @@ public class PlayState implements State {
                         _entityVector[i].getRectOrigin(),_entityVector[i].getPosRectangle());//ball
         }
 
-
         if(_whiteFlash){
             _whiteFlash = false;
             _logicStateManager.getGame().getGraphics().drawRectToRect(_entityVector[0].getImage(),
                     _entityVector[0].getRectOrigin(), _entityVector[0].getPosRectangle());
         }
+
+        if(_animation.isActive())
+            for(int i = 0; i < _animation.getTotalBalls(); i++) {
+                _logicStateManager.getGame().getGraphics().drawRectToRect(_animation.getSprite().get_img(),
+                        _animation.getSprite().get_rectTexture(), _animation.getFinalRect(i),
+                        _animation.getAlpha());
+
+            }
     }
 
     @Override
@@ -130,6 +144,8 @@ public class PlayState implements State {
                 if (((EntitySwapper) _entityVector[2]).getMode() == ((EntitySwapper) _entityVector[i]).getMode()) {
                     _points++;
                     checkNumber();
+                    _animation.PutColor(((EntitySwapper) _entityVector[i]).getMode());
+                    _animation.resetAnimation();
                     _ballsVel = _ballsStartVel + (_points/10) * 90;
                 } else
                     _gameOver = true;
@@ -141,6 +157,9 @@ public class PlayState implements State {
         if(_gameOver){
             _logicStateManager.spawActiveState(3);
         }
+
+        if(_animation.isActive())
+            _animation.simulate();
 
     }
 
@@ -268,6 +287,7 @@ public class PlayState implements State {
         }
     }
 
+    private Animation _animation;
     private int _ballStartVector;
     private int _ballSeparation;
     private int _ballActive;

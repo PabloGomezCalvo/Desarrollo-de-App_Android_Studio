@@ -1,6 +1,8 @@
 package gdv.ucm.engine_pc;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.image.PixelGrabber;
 import java.io.IOException;
 
@@ -58,14 +60,6 @@ public class GraphicsPC extends AbstractGraphics {
                 null);
     }
 
-   /* @Override
-    public void drawRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal, int alpha) {
-        _graphics.drawImage(((ImagePC)image).getAWTImage(),
-                rectGoal._x,rectGoal._y,rectGoal._x + rectGoal._width,rectGoal._y + rectGoal._height,
-                rectOrigin._x,rectOrigin._y,rectOrigin._x + rectOrigin._width,
-                rectOrigin._y + rectOrigin._height,
-                null);    }
-*/
     @Override
     public void drawPrivateRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal, int color) {
        Color c = new Color(color);
@@ -75,7 +69,16 @@ public class GraphicsPC extends AbstractGraphics {
                 rectOrigin._y + rectOrigin._height,c,
                 null);
     }
+    @Override
+    protected void drawPrivateRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal, float alpha) {
+        Graphics2D graphics2D = (Graphics2D) _graphics;
+        graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha));
 
+        graphics2D.drawImage(((ImagePC)image).getAWTImage(),
+                rectGoal._x,rectGoal._y,rectGoal._x + rectGoal._width,rectGoal._y + rectGoal._height,
+                rectOrigin._x,rectOrigin._y,rectOrigin._x + rectOrigin._width,
+                rectOrigin._y + rectOrigin._height, null);
+    }
     @Override
     public int getPrivateColorSprite(Image image, int x, int y, int w, int h) {
         int pixels [] = new int[w*h];
@@ -89,6 +92,9 @@ public class GraphicsPC extends AbstractGraphics {
         }
         return pixels[0];
     }
+
+
+
 
     @Override
     public int getWidth() {

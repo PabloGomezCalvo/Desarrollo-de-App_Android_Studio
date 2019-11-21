@@ -70,18 +70,6 @@ public class GraphicsAndroid extends AbstractGraphics {
         _canvas.drawBitmap(((ImageAndroid)image).getBitmap(),rectOri,rectGo, null);
     }
 
-   /* @Override
-    public void drawRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal, int alpha) {
-        Paint paintAlpha = new Paint();
-        paintAlpha.setAlpha(alpha);
-
-        Rect rectOri = new Rect(rectOrigin._x,rectOrigin._y,
-                rectOrigin._x + rectOrigin._width, rectOrigin._y + rectOrigin._height);
-        Rect rectGo = new Rect(rectGoal._x,rectGoal._y,
-                rectGoal._x + rectGoal._width, rectGoal._y + rectGoal._height);
-        _canvas.drawBitmap(((ImageAndroid)image).getBitmap(),rectOri,rectGo, paintAlpha);
-    }
-*/
     @Override
     public void drawPrivateRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal, int color) {
         Paint p = new Paint();
@@ -96,6 +84,17 @@ public class GraphicsAndroid extends AbstractGraphics {
         _canvas.drawBitmap(((ImageAndroid)image).getBitmap(),rectOri,rectGo, p);
     }
 
+    @Override
+    protected void drawPrivateRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal, float alpha) {
+        Paint p = new Paint();
+        p.setAlpha((int)(255*alpha));
+        Rect rectOri = new Rect(rectOrigin._x,rectOrigin._y,
+                rectOrigin._x + rectOrigin._width, rectOrigin._y + rectOrigin._height);
+        Rect rectGo = new Rect(rectGoal._x,rectGoal._y,
+                rectGoal._x + rectGoal._width, rectGoal._y + rectGoal._height);
+        _canvas.drawBitmap(((ImageAndroid)image).getBitmap(),rectOri,rectGo, p);
+
+    }
     @Override
     public int getPrivateColorSprite(Image image, int x, int y, int w, int h) {
         int color = ((ImageAndroid)image).getBitmap().getPixel(x, y);

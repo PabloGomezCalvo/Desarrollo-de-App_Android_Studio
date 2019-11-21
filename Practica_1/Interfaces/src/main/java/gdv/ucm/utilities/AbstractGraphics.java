@@ -11,9 +11,9 @@ public abstract class AbstractGraphics implements Graphics {
     protected abstract void privateClear(int color);
     protected abstract void drawPrivateImage(Image image, int x, int y);//shit to finish
     protected abstract void drawPrivateRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal);
-    //void drawRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal, int alpha);
     protected abstract void drawPrivateRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal, int color);
     protected abstract int getPrivateColorSprite(Image image, int x, int y, int w, int h);
+    protected abstract void drawPrivateRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal, float alpha);
 
 
     public AbstractGraphics(int width, int height){
@@ -97,7 +97,20 @@ public abstract class AbstractGraphics implements Graphics {
     }
 
     @Override
-    public void drawRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal, int alpha) {
+    public void drawRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal, int color) {
+        int newX = (rectGoal._x*_paintSpace._width)/_gameResolutionX;
+        int newY = (rectGoal._y*_paintSpace._height)/_gameResolutionY;
+        int newW = (rectGoal._width*_paintSpace._width)/_gameResolutionX;
+        int newH = (rectGoal._height*_paintSpace._height)/_gameResolutionY;
+        newX += _paintSpace._x;
+        newY += _paintSpace._y;
+        Rectangle rectGoalScalated = new Rectangle(newX, newY, newW,newH);
+
+        drawPrivateRectToRect(image,rectOrigin,rectGoalScalated,color);
+    }
+
+    @Override
+    public void drawRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal, float alpha){
         int newX = (rectGoal._x*_paintSpace._width)/_gameResolutionX;
         int newY = (rectGoal._y*_paintSpace._height)/_gameResolutionY;
         int newW = (rectGoal._width*_paintSpace._width)/_gameResolutionX;
@@ -108,6 +121,7 @@ public abstract class AbstractGraphics implements Graphics {
 
         drawPrivateRectToRect(image,rectOrigin,rectGoalScalated,alpha);
     }
+
     @Override
     public int getColorSprite(Image image, int x, int y, int w, int h) {
         return getPrivateColorSprite(image,x,y,w,h);
