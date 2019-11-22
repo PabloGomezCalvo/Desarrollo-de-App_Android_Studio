@@ -24,64 +24,55 @@ public class InputPC implements Input, MouseListener {
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
         TouchEvent _event = createEvent(mouseEvent);
-        if(_event != null) {
-            synchronized (this) {
-                _inputStream.add(_event);
-            }
+        _event._eventType = TouchEvent.EventType.Release;
+        synchronized (this) {
+            _inputStream.add(_event);
         }
     }
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
         TouchEvent _event = createEvent(mouseEvent);
-        if(_event != null) {
-            synchronized (this) {
-                _inputStream.add(_event);
-            }
+        _event._eventType = TouchEvent.EventType.Press;
+        synchronized (this) {
+            _inputStream.add(_event);
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {
         TouchEvent _event = createEvent(mouseEvent);
-        if(_event != null) {
-            synchronized (this) {
-                _inputStream.add(_event);
-            }
+        _event._eventType = TouchEvent.EventType.Release;
+        synchronized (this) {
+            _inputStream.add(_event);
         }
     }
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
         TouchEvent _event = createEvent(mouseEvent);
-        if(_event != null) {
-            synchronized (this) {
-                _inputStream.add(_event);
-            }
+        _event._eventType = TouchEvent.EventType.EnteredScreen;
+        synchronized (this) {
+            _inputStream.add(_event);
         }
+
     }
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
         TouchEvent _event = createEvent(mouseEvent);
-        if(_event != null) {
-            synchronized (this) {
-                _inputStream.add(_event);
-            }
+        _event._eventType = TouchEvent.EventType.ExitScreen;
+        synchronized (this) {
+            _inputStream.add(_event);
         }
     }
 
-    private TouchEvent createEvent(MouseEvent mouseEvent){
-        if(_abstractGraphics.changeToGamelCoordenatesY(mouseEvent.getY()) != -1 && _abstractGraphics.changeToGamelCoordenatesY(mouseEvent.getY()) != -1) {
-            TouchEvent _event = new TouchEvent();
-            _event.x = _abstractGraphics.changeToGamelCoordenatesX(mouseEvent.getX());
-            _event.y = _abstractGraphics.changeToGamelCoordenatesY(mouseEvent.getY());
-            _event._eventType = TouchEvent.EventType.ExitScreen;
-            _event.pointerId = mouseEvent.getButton();
-
-            return _event;
-        }
-        return null;
+    private TouchEvent createEvent(MouseEvent mouseEvent) {
+        TouchEvent _event = new TouchEvent();
+        _event.x = _abstractGraphics.changeToGamelCoordenatesX(mouseEvent.getX());
+        _event.y = _abstractGraphics.changeToGamelCoordenatesY(mouseEvent.getY());
+        _event.pointerId = mouseEvent.getButton();
+        return _event;
     }
 
     private AbstractGraphics _abstractGraphics;

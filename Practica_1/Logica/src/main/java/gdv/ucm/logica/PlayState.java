@@ -25,70 +25,55 @@ public class PlayState extends State {
 
     @Override
     public void init() {
-        try {
-            _entityVector[0] = new Entity(
-                    new Sprite(_logicStateManager.getGame().getGraphics().
-                            newImage("white.png"),new Rectangle(0,0,32,32)),
-                    new Rectangle(0,0,1080 ,1920));
 
-            _entityVector[2] = new EntitySwapper(
-                    new Sprite(_logicStateManager.getGame().getGraphics().
-                            newImage("players.png"),new Rectangle(0,0,528,192)),
-                    new Rectangle((1080/2)-(528/2),1200,528 ,192),0,true);
+        _entityVector[0] = new Entity(
+                new Sprite(_logicStateManager.getImage(0), new Rectangle(0, 0, 32, 32)),
+                new Rectangle(0, 0, 1080, 1920));
 
-            _entityVector[3] = new EntitySwapper(
-                    new Sprite(_logicStateManager.getGame().getGraphics().
-                            newImage("balls.png"),new Rectangle(0,0,128,128)),
-                    new Rectangle(_ballsStartPosX,0,128 ,128),0,true);
-            _entityVector[4] = new EntitySwapper(
-                    new Sprite(_logicStateManager.getGame().getGraphics().
-                            newImage("balls.png"),new Rectangle(0,0,128,128)),
-                    new Rectangle(-1,0,128 ,128),0,true);
-            _entityVector[5] = new EntitySwapper(
-                    new Sprite(_logicStateManager.getGame().getGraphics().
-                            newImage("balls.png"),new Rectangle(0,0,128,128)),
-                    new Rectangle(-1,0,128 ,128),0,true);
-            _entityVector[6] = new EntitySwapper(
-                    new Sprite(_logicStateManager.getGame().getGraphics().
-                            newImage("balls.png"),new Rectangle(0,0,128,128)),
-                    new Rectangle(-1,0,128 ,128),0,true);
-            _entityVector[7] = new EntitySwapper(
-                    new Sprite(_logicStateManager.getGame().getGraphics().
-                            newImage("balls.png"),new Rectangle(0,0,128,128)),
-                    new Rectangle(-1,0,128 ,128),0,true);
+        _entityVector[2] = new EntitySwapper(
+                new Sprite(_logicStateManager.getImage(11), new Rectangle(0, 0, 528, 192)),
+                new Rectangle((1080 / 2) - (528 / 2), 1200, 528, 192), 0, true);
 
-            //POINTS AS NUMBERS
+        _entityVector[3] = new EntitySwapper(
+                new Sprite(_logicStateManager.getImage(12), new Rectangle(0, 0, 128, 128)),
+                new Rectangle(_ballsStartPosX, 0, 128, 128), 0, true);
+        _entityVector[4] = new EntitySwapper(
+                new Sprite(_logicStateManager.getImage(12), new Rectangle(0, 0, 128, 128)),
+                new Rectangle(-1, 0, 128, 128), 0, true);
+        _entityVector[5] = new EntitySwapper(
+                new Sprite(_logicStateManager.getImage(12), new Rectangle(0, 0, 128, 128)),
+                new Rectangle(-1, 0, 128, 128), 0, true);
+        _entityVector[6] = new EntitySwapper(
+                new Sprite(_logicStateManager.getImage(12), new Rectangle(0, 0, 128, 128)),
+                new Rectangle(-1, 0, 128, 128), 0, true);
+        _entityVector[7] = new EntitySwapper(
+                new Sprite(_logicStateManager.getImage(12), new Rectangle(0, 0, 128, 128)),
+                new Rectangle(-1, 0, 128, 128), 0, true);
 
-            _entityVector[8] = new Entity( //160 h y 125 w
-                    new Sprite(_logicStateManager.getGame().getGraphics().
-                            newImage("scoreFont.png"),new Rectangle(0,0,125,160)),
-                    new Rectangle(780,200,125 ,160));
-            _entityVector[9] = new Entity( //160 h y 125 w
-                    new Sprite(_logicStateManager.getGame().getGraphics().
-                            newImage("scoreFont.png"),new Rectangle(0,0,125,160)),
-                    new Rectangle(840,200,125 ,160));
-            _entityVector[10] = new Entity( //160 h y 125 w
-                    new Sprite(_logicStateManager.getGame().getGraphics().
-                            newImage("scoreFont.png"),new Rectangle(0,0,125,160)),
-                    new Rectangle(900,200,125 ,160));
+        //POINTS AS NUMBERS
 
-            int color = _logicStateManager.getGame().getGraphics().getColorSprite(_logicStateManager.getGame().getGraphics().
-                    newImage("backgrounds.png"), 32 * _numColor,0,32,32);
+        _entityVector[8] = new Entity( //160 h y 125 w
+                new Sprite(_logicStateManager.getImage(9), new Rectangle(0, 0, 125, 160)),
+                new Rectangle(780, 200, 125, 160));
+        _entityVector[9] = new Entity( //160 h y 125 w
+                new Sprite(_logicStateManager.getImage(9), new Rectangle(0, 0, 125, 160)),
+                new Rectangle(840, 200, 125, 160));
+        _entityVector[10] = new Entity( //160 h y 125 w
+                new Sprite(_logicStateManager.getImage(9), new Rectangle(0, 0, 125, 160)),
+                new Rectangle(900, 200, 125, 160));
 
-            _entityVector[1] = new EntityBackgroundArrows(
-                    new Sprite(_logicStateManager.getGame().getGraphics().
-                            newImage("arrowsBackground.png"),new Rectangle(0,1150,676,1920)),
-                    new Rectangle((1080/2)-(676/2),0,676 ,1920),color);
+        int color = _logicStateManager.getGame().getGraphics().getColorSprite(_logicStateManager.getImage(1),
+                32 * _numColor, 0, 32, 32);
+
+        _entityVector[1] = new EntityBackgroundArrows(
+                new Sprite(_logicStateManager.getImage(2), new Rectangle(0, 1150, 676, 1920)),
+                new Rectangle((1080 / 2) - (676 / 2), 0, 676, 1920), color);
 
 
-            _animation = new Animation(new Sprite(_logicStateManager.getGame().getGraphics().
-                    newImage("balls.png"),new Rectangle(0,0,128,128))
-                    ,(1080/2) - 25,1150,1.0f);
+        _animation = new Animation(new Sprite(_logicStateManager.getImage(12),
+                new Rectangle(0, 0, 128, 128)), (1080 / 2) - 25, 1150, 1.0f);
 
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         checkNumber();
 
     }

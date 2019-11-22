@@ -1,7 +1,10 @@
 package gdv.ucm.logica;
 
 
+import java.io.IOException;
+
 import gdv.ucm.interfaces.Game;
+import gdv.ucm.interfaces.Image;
 import gdv.ucm.interfaces.StateManager;
 
 public class LogicStateManager implements StateManager {
@@ -12,8 +15,28 @@ public class LogicStateManager implements StateManager {
 
 
     public void init(Game game){
-        _cNum = (int)(Math.random()* (_totalColors-1));
+        _images = new Image[13];
         _game = game;
+        _cNum = (int)(Math.random()* (_totalColors-1));
+
+        try {
+            _images[0] = _game.getGraphics().newImage("white.png");
+            _images[1] = _game.getGraphics().newImage("backgrounds.png");
+            _images[2] = _game.getGraphics().newImage("arrowsBackground.png");
+            _images[3] = _game.getGraphics().newImage("howToPlay.png");
+            _images[4] = _game.getGraphics().newImage("tapToPlay.png");
+            _images[5] = _game.getGraphics().newImage("instructions.png");
+            _images[6] = _game.getGraphics().newImage("buttons.png");
+            _images[7] = _game.getGraphics().newImage("gameOver.png");
+            _images[8] = _game.getGraphics().newImage("playAgain.png");
+            _images[9] = _game.getGraphics().newImage("scoreFont.png");
+            _images[10] = _game.getGraphics().newImage("switchDashLogo.png");
+            _images[11] = _game.getGraphics().newImage("players.png");
+            _images[12] = _game.getGraphics().newImage("balls.png");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         _activeState = new MenuState(this,_cNum);
         _activeState.init();
     }
@@ -49,11 +72,17 @@ public class LogicStateManager implements StateManager {
         _activeState.init();
     }
 
+    public Image getImage(int index){
+        return _images[index];
+    }
+
+
     public int swapColor(){
         _cNum = (int)(Math.random()* (_totalColors-1));
         return _cNum;
     }
 
+    private Image[] _images;
     private int _totalColors = 9;
     private int _cNum;
     private int[] _clearColor = { 0x41a85f, 0x00a885, 0x3d8eb9, 0x2969b0, 0x553982, 0x28324e, 0xf37934, 0xd14b41, 0x75706b};

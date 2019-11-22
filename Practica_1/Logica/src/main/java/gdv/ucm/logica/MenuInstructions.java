@@ -17,39 +17,28 @@ public class MenuInstructions extends State {
 
     @Override
     public void init() {
-        try {
-            _entityVector[0] = new Entity(
-                    new Sprite(_logicStateManager.getGame().getGraphics().
-                            newImage("white.png"),new Rectangle(0,0,32,32)),
-                    new Rectangle(0,0,1080 ,1920));
-            _entityVector[2] = new Entity(
-                    new Sprite(_logicStateManager.getGame().getGraphics().
-                            newImage("howToPlay.png"),new Rectangle(0,0,486,354)),
-                    new Rectangle((1080/2)-(486/2),200,486 ,354));
-            _entityVector[3] = new Entity(
-                    new Sprite(_logicStateManager.getGame().getGraphics().
-                            newImage("tapToPlay.png"),new Rectangle(0,0,506,72)),
-                    new Rectangle((1080/2)-(506/2),1300,506 ,72));
-            _entityVector[4] = new Entity(
-                    new Sprite(_logicStateManager.getGame().getGraphics().
-                            newImage("instructions.png"),new Rectangle(0,0,538,551)),
-                    new Rectangle((1080/2)-(538/2),700,538 ,551));
-            _entityVector[5] = new Entity(
-                    new Sprite(_logicStateManager.getGame().getGraphics().
-                            newImage("buttons.png"),new Rectangle(140,0,140,140)),
-                    new Rectangle(890,200,140 ,140));
+        _entityVector[0] = new Entity(
+                new Sprite(_logicStateManager.getImage(0), new Rectangle(0, 0, 32, 32)),
+                new Rectangle(0, 0, 1080, 1920));
+        _entityVector[2] = new Entity(
+                new Sprite(_logicStateManager.getImage(3), new Rectangle(0, 0, 486, 354)),
+                new Rectangle((1080 / 2) - (486 / 2), 200, 486, 354));
+        _entityVector[3] = new Entity(
+                new Sprite(_logicStateManager.getImage(4), new Rectangle(0, 0, 506, 72)),
+                new Rectangle((1080 / 2) - (506 / 2), 1300, 506, 72));
+        _entityVector[4] = new Entity(
+                new Sprite(_logicStateManager.getImage(5), new Rectangle(0, 0, 538, 551)),
+                new Rectangle((1080 / 2) - (538 / 2), 700, 538, 551));
+        _entityVector[5] = new Entity(
+                new Sprite(_logicStateManager.getImage(6), new Rectangle(140, 0, 140, 140)),
+                new Rectangle(890, 200, 140, 140));
 
-            int color = _logicStateManager.getGame().getGraphics().getColorSprite(_logicStateManager.getGame().getGraphics().
-                    newImage("backgrounds.png"),32 * _numColor,0,32,32);
+        int color = _logicStateManager.getGame().getGraphics().getColorSprite(_logicStateManager.getImage(1),
+                32 * _numColor, 0, 32, 32);
 
-            _entityVector[1] = new EntityBackgroundArrows(
-                    new Sprite(_logicStateManager.getGame().getGraphics().
-                            newImage("arrowsBackground.png"),new Rectangle(0,1150,676,1920)),
-                    new Rectangle((1080/2)-(676/2),0,676 ,1920),color);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        _entityVector[1] = new EntityBackgroundArrows(
+                new Sprite(_logicStateManager.getImage(2), new Rectangle(0, 1150, 676, 1920)),
+                new Rectangle((1080 / 2) - (676 / 2), 0, 676, 1920), color);
 
     }
 
