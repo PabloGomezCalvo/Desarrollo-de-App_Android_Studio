@@ -7,14 +7,12 @@ import gdv.ucm.interfaces.Input;
 import gdv.ucm.utilities.Rectangle;
 import gdv.ucm.utilities.Sprite;
 
-public class MenuInstructions implements State {
+public class MenuInstructions extends State {
 
     public MenuInstructions(LogicStateManager logicStateManager, int numColor){
-        _logicStateManager = logicStateManager;
+        super(logicStateManager);
         _entityVector = new Entity[6];
         _numColor = numColor;
-        _whiteFlash = true;
-        _whiteFlashAlpha = 1.0f;
     }
 
     @Override
@@ -100,10 +98,4 @@ public class MenuInstructions implements State {
             }
         }
     }
-
-    private boolean _whiteFlash;
-    private float _whiteFlashAlpha;
-    private int _numColor;
-    private LogicStateManager _logicStateManager;
-    private Entity _entityVector [];
 }

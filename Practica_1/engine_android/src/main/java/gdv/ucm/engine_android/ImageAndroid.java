@@ -25,6 +25,5 @@ public class ImageAndroid implements Image {
         return _image.getHeight();
     }
 
-    Bitmap _image;
-
+    private Bitmap _image;
 }

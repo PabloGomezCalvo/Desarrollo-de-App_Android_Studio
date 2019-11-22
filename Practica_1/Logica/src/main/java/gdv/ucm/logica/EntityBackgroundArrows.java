@@ -4,6 +4,7 @@ import gdv.ucm.utilities.Rectangle;
 import gdv.ucm.utilities.Sprite;
 
 public class EntityBackgroundArrows extends Entity {
+
     public EntityBackgroundArrows(Sprite sprite, Rectangle position, int color) {
         super(sprite, position);
         _color = color;
@@ -12,7 +13,7 @@ public class EntityBackgroundArrows extends Entity {
         _offset = _tamPerTile - ((_tamPerTile * 4) - sprite.get_rectTexture()._height);
     }
 
-
+    @Override
     public void moveSurfaceImage(float x, float y){
         _xImage = x;
         _yImage = y;

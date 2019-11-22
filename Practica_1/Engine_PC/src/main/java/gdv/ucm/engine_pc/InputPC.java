@@ -23,68 +23,67 @@ public class InputPC implements Input, MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
-        TouchEvent _event = new TouchEvent();
-        _event.x = _abstractGraphics.changeToGamelCoordenatesX(mouseEvent.getX());
-        _event.y = _abstractGraphics.changeToGamelCoordenatesY(mouseEvent.getY());
-        _event._eventType = TouchEvent.EventType.Release;
-        _event.pointerId = mouseEvent.getButton();
-
-        synchronized (this) {
-            _inputStream.add(_event);
+        TouchEvent _event = createEvent(mouseEvent);
+        if(_event != null) {
+            synchronized (this) {
+                _inputStream.add(_event);
+            }
         }
-
     }
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
-        TouchEvent _event = new TouchEvent();
-        _event.x = _abstractGraphics.changeToGamelCoordenatesX(mouseEvent.getX());
-        _event.y = _abstractGraphics.changeToGamelCoordenatesY(mouseEvent.getY());
-        _event._eventType = TouchEvent.EventType.Press;
-        _event.pointerId = mouseEvent.getButton();
-
-
-        synchronized (this) {
-            _inputStream.add(_event);
+        TouchEvent _event = createEvent(mouseEvent);
+        if(_event != null) {
+            synchronized (this) {
+                _inputStream.add(_event);
+            }
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {
-        TouchEvent _event = new TouchEvent();
-        _event.x = _abstractGraphics.changeToGamelCoordenatesX(mouseEvent.getX());
-        _event.y = _abstractGraphics.changeToGamelCoordenatesY(mouseEvent.getY());
-        _event._eventType = TouchEvent.EventType.Release;
-        _event.pointerId = mouseEvent.getButton();
-        synchronized (this) {
-            _inputStream.add(_event);
+        TouchEvent _event = createEvent(mouseEvent);
+        if(_event != null) {
+            synchronized (this) {
+                _inputStream.add(_event);
+            }
         }
     }
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-        TouchEvent _event = new TouchEvent();
-        _event.x = _abstractGraphics.changeToGamelCoordenatesX(mouseEvent.getX());
-        _event.y = _abstractGraphics.changeToGamelCoordenatesY(mouseEvent.getY());
-        _event._eventType = TouchEvent.EventType.EnteredScreen;
-        _event.pointerId = mouseEvent.getButton();
-        synchronized (this) {
-            _inputStream.add(_event);
+        TouchEvent _event = createEvent(mouseEvent);
+        if(_event != null) {
+            synchronized (this) {
+                _inputStream.add(_event);
+            }
         }
     }
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
-        TouchEvent _event = new TouchEvent();
-        _event.x = _abstractGraphics.changeToGamelCoordenatesX(mouseEvent.getX());
-        _event.y = _abstractGraphics.changeToGamelCoordenatesY(mouseEvent.getY());
-        _event._eventType = TouchEvent.EventType.ExitScreen;
-        _event.pointerId = mouseEvent.getButton();
-        synchronized (this) {
-            _inputStream.add(_event);
+        TouchEvent _event = createEvent(mouseEvent);
+        if(_event != null) {
+            synchronized (this) {
+                _inputStream.add(_event);
+            }
         }
     }
 
-    AbstractGraphics _abstractGraphics;
-    List<TouchEvent> _inputStream;
+    private TouchEvent createEvent(MouseEvent mouseEvent){
+        if(_abstractGraphics.changeToGamelCoordenatesY(mouseEvent.getY()) != -1 && _abstractGraphics.changeToGamelCoordenatesY(mouseEvent.getY()) != -1) {
+            TouchEvent _event = new TouchEvent();
+            _event.x = _abstractGraphics.changeToGamelCoordenatesX(mouseEvent.getX());
+            _event.y = _abstractGraphics.changeToGamelCoordenatesY(mouseEvent.getY());
+            _event._eventType = TouchEvent.EventType.ExitScreen;
+            _event.pointerId = mouseEvent.getButton();
+
+            return _event;
+        }
+        return null;
+    }
+
+    private AbstractGraphics _abstractGraphics;
+    private List<TouchEvent> _inputStream;
 }

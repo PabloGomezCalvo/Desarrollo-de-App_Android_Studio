@@ -43,9 +43,6 @@ public class InputAndroid implements Input, View.OnTouchListener {
         }
         return true;
     }
-
-    AbstractGraphics _abstractGraphics;
-    List<TouchEvent> _inputStream;
-
-
+    private AbstractGraphics _abstractGraphics;
+    private List<TouchEvent> _inputStream;
 }

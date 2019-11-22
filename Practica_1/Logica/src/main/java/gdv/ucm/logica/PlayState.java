@@ -6,13 +6,11 @@ import gdv.ucm.interfaces.Input;
 import gdv.ucm.utilities.Rectangle;
 import gdv.ucm.utilities.Sprite;
 
-public class PlayState implements State {
+public class PlayState extends State {
 
     public PlayState(LogicStateManager logicStateManager){
-        _logicStateManager = logicStateManager;
+        super(logicStateManager);
         _numColor = _logicStateManager.swapColor();
-        _whiteFlash = true;
-        _whiteFlashAlpha = 1.0f;
         _entityVector = new Entity[11];
         _points = 0;
         _totalBalls = 5;
@@ -23,7 +21,6 @@ public class PlayState implements State {
         _ballActive = 3;
         _ballStartVector = 3;
         _ballSeparation = 395;
-
     }
 
     @Override
@@ -310,9 +307,4 @@ public class PlayState implements State {
     private boolean _gameOver;
     private int _totalBalls;
     private int _points;
-    private boolean _whiteFlash;
-    private float _whiteFlashAlpha;
-    private int _numColor;
-    private LogicStateManager _logicStateManager;
-    private Entity _entityVector [];
 }

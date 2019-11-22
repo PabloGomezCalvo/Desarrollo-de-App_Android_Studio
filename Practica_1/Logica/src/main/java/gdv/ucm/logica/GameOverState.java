@@ -7,15 +7,13 @@ import gdv.ucm.interfaces.Input;
 import gdv.ucm.utilities.Rectangle;
 import gdv.ucm.utilities.Sprite;
 
-public class GameOverState implements State {
+public class GameOverState extends State {
 
     public GameOverState(LogicStateManager logicStateManager, int numColor, int points){
-        _logicStateManager = logicStateManager;
+        super(logicStateManager);
         _entityVector = new Entity[15];
         _numColor = numColor;
-        _whiteFlash = true;
         _points = points;
-        _whiteFlashAlpha = 1.0f;
     }
 
     @Override
@@ -231,11 +229,4 @@ public class GameOverState implements State {
     }
 
     private int _points;
-    private boolean _whiteFlash;
-    private float _whiteFlashAlpha;
-    private int _numColor;
-    private LogicStateManager _logicStateManager;
-    private Entity _entityVector [];
-
-    // private Entity _caracteres []
 }

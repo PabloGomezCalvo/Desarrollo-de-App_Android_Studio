@@ -84,41 +84,19 @@ public abstract class AbstractGraphics implements Graphics {
 
 
     public void drawRectToRect(Image image,Rectangle rectOrigin, Rectangle rectGoal){
-        int newX = (rectGoal._x*_paintSpace._width)/_gameResolutionX;
-        int newY = (rectGoal._y*_paintSpace._height)/_gameResolutionY;
-        int newW = (rectGoal._width*_paintSpace._width)/_gameResolutionX;
-        int newH = (rectGoal._height*_paintSpace._height)/_gameResolutionY;
-        newX += _paintSpace._x;
-        newY += _paintSpace._y;
-
-        Rectangle rectGoalScalated = new Rectangle(newX, newY, newW,newH);
-
+        Rectangle rectGoalScalated = tranformCoordenates(rectGoal);
         drawPrivateRectToRect(image,rectOrigin,rectGoalScalated);
     }
 
     @Override
     public void drawRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal, int color) {
-        int newX = (rectGoal._x*_paintSpace._width)/_gameResolutionX;
-        int newY = (rectGoal._y*_paintSpace._height)/_gameResolutionY;
-        int newW = (rectGoal._width*_paintSpace._width)/_gameResolutionX;
-        int newH = (rectGoal._height*_paintSpace._height)/_gameResolutionY;
-        newX += _paintSpace._x;
-        newY += _paintSpace._y;
-        Rectangle rectGoalScalated = new Rectangle(newX, newY, newW,newH);
-
+        Rectangle rectGoalScalated = tranformCoordenates(rectGoal);
         drawPrivateRectToRect(image,rectOrigin,rectGoalScalated,color);
     }
 
     @Override
     public void drawRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal, float alpha){
-        int newX = (rectGoal._x*_paintSpace._width)/_gameResolutionX;
-        int newY = (rectGoal._y*_paintSpace._height)/_gameResolutionY;
-        int newW = (rectGoal._width*_paintSpace._width)/_gameResolutionX;
-        int newH = (rectGoal._height*_paintSpace._height)/_gameResolutionY;
-        newX += _paintSpace._x;
-        newY += _paintSpace._y;
-        Rectangle rectGoalScalated = new Rectangle(newX, newY, newW,newH);
-
+        Rectangle rectGoalScalated = tranformCoordenates(rectGoal);
         drawPrivateRectToRect(image,rectOrigin,rectGoalScalated,alpha);
     }
 
@@ -144,6 +122,17 @@ public abstract class AbstractGraphics implements Graphics {
         }
         return -1;
     }
+
+    private Rectangle tranformCoordenates(Rectangle rectGoal){
+        int newX = (rectGoal._x*_paintSpace._width)/_gameResolutionX;
+        int newY = (rectGoal._y*_paintSpace._height)/_gameResolutionY;
+        int newW = (rectGoal._width*_paintSpace._width)/_gameResolutionX;
+        int newH = (rectGoal._height*_paintSpace._height)/_gameResolutionY;
+        newX += _paintSpace._x;
+        newY += _paintSpace._y;
+        return new Rectangle(newX, newY, newW,newH);
+    }
+
     private int _gameResolutionX = 1080;
     private int _gameResolutionY = 1920;
     private int _aspectRatioOriginalX = 9;

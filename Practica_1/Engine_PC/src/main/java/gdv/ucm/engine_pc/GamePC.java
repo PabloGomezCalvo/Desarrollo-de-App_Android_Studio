@@ -79,6 +79,7 @@ public class GamePC implements Game {
     public Input getInput() {
         return _input;
     }
+
     private GraphicsPC _graphics;
     private InputPC _input;
     private StateManager _stateManager;

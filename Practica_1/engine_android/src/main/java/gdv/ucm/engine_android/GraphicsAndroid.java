@@ -50,10 +50,8 @@ public class GraphicsAndroid extends AbstractGraphics {
 
     @Override
     public void privateClear(int color) {
-
         color = color | 0xFF000000;
         _canvas.drawColor(color); // ARGB
-
     }
 
     @Override

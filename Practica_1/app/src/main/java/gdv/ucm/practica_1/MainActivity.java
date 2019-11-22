@@ -11,7 +11,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         LogicStateManager logicStateManager = new LogicStateManager();
         _gameAndroid = new GameAndroid(this.getAssets(),this,logicStateManager);
         logicStateManager.init(_gameAndroid);
@@ -30,5 +29,5 @@ public class MainActivity extends AppCompatActivity {
         _gameAndroid.pause();
     }
 
-    GameAndroid _gameAndroid;
+    private GameAndroid _gameAndroid;
 }

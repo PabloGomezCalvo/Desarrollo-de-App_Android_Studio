@@ -6,6 +6,7 @@ import gdv.ucm.utilities.Sprite;
 
 public class Animation{
     public Animation(Sprite sprite, int x, int y, float alpha) {
+        
         _sprite = sprite;
         _isActive = false;
         _alpha = alpha;
@@ -15,6 +16,7 @@ public class Animation{
         _x = x;
         _y = y;
         _posPerObj = new Bola[5];
+
         for (int i = 0; i < _posPerObj.length; i++ ) {
             int timesDiv = (int)(Math.random() * 3 + 2);
             int w = sprite.get_rectTexture()._width/timesDiv;
@@ -82,15 +84,6 @@ public class Animation{
         }
     }
 
-    private float _alpha;
-    private float _alphaPerTick;
-    private int _x;
-    private int _y;
-    private Bola[] _posPerObj;
-    private boolean _isActive;
-    private Sprite _sprite;
-    private float _acelerationY;
-    private float _acelerationX;
     private class Bola{
         Rectangle _rec;
         int _velX;
@@ -102,4 +95,13 @@ public class Animation{
         }
     }
 
+    private float _alpha;
+    private float _alphaPerTick;
+    private int _x;
+    private int _y;
+    private Bola[] _posPerObj;
+    private boolean _isActive;
+    private Sprite _sprite;
+    private float _acelerationY;
+    private float _acelerationX;
 }
