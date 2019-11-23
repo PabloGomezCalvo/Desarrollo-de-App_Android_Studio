@@ -1,3 +1,13 @@
+/**
+
+    Clase para el manejo de la Animación del sistema de partículas al morir y ganar puntos.
+    @param sprite sprite de la partícula dentro del sprite sheet de balls.
+    @param int x Posición x del sprite sheet de bolas.
+    @param int y Posición y del sprite sheet de bolas.
+    @param float alpha Transparencia de la partícula
+
+*/
+
 package gdv.ucm.logica;
 
 import gdv.ucm.utilities.Rectangle;
@@ -26,17 +36,29 @@ public class Animation{
             _posPerObj[i] = new Bola(new Rectangle(x,y,w,h),velX,velY);
         }
     }
+/**
+    @return bool Animación activa
 
+*/
     public boolean isActive(){
         return _isActive;
     }
+/**
 
+    Getter de transparencia de las partículas
+    @return float alpha
+
+*/
     public float getAlpha(){
         if(_alphaPerTick < 0)
             return 0.0f;
         return _alphaPerTick;
     }
+/**
 
+    Cambio de color de las partículas
+
+*/
     public void PutColor(int color){
         if(color == 0){
             _sprite.get_rectTexture()._y = 0;
@@ -45,7 +67,11 @@ public class Animation{
             _sprite.get_rectTexture()._y = _sprite.get_rectTexture()._height;
         }
     }
+/**
 
+    Getters para el uso de partículas.
+
+*/
     public int getTotalBalls(){
         return 5;
     }
@@ -57,7 +83,11 @@ public class Animation{
     public Sprite getSprite(){
         return _sprite;
     }
+/**
 
+    Reset de la animación de muerte para que cada una sea diferente.
+
+*/
     public void resetAnimation(){
         _isActive = true;
         _alphaPerTick = _alpha;
@@ -71,7 +101,11 @@ public class Animation{
             bola._velY = (int)(Math.random()* 200 - 100);
         }
     }
+/**
 
+    Simulación del movimiento de las partículas.
+
+*/
     public void simulate(){
         for(Bola bola : _posPerObj){
             bola._rec._x = bola._rec._x + (int)(bola._velX * _acelerationX);
@@ -83,7 +117,11 @@ public class Animation{
             _alphaPerTick = _alpha;
         }
     }
+/**
 
+    Clase para el manejo de cada partícula.
+
+*/
     private class Bola{
         Rectangle _rec;
         int _velX;

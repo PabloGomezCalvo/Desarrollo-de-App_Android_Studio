@@ -1,3 +1,7 @@
+/**
+    Clase Manager de la lógica que tiene como proposito la inicialización de los recursos, cambiar entre estados y llamar al render y update de las entidades de los estados.
+*/
+
 package gdv.ucm.logica;
 
 
@@ -8,12 +12,16 @@ import gdv.ucm.interfaces.Image;
 import gdv.ucm.interfaces.StateManager;
 
 public class LogicStateManager implements StateManager {
-
+/**
+    @return referencia al juego.
+*/
     public Game getGame(){
         return _game;
     }
 
-
+/**
+    Inicialización de los recursos, color de fondo y carga del primer estado.
+*/
     public void init(Game game){
         _images = new Image[13];
         _game = game;
@@ -40,18 +48,26 @@ public class LogicStateManager implements StateManager {
         _activeState = new MenuState(this,_cNum);
         _activeState.init();
     }
-
+/**
+    Update del estado activo.
+*/
     @Override
     public void update(float deltaTime) {
         _activeState.update(deltaTime);
     }
-
+/**
+    Render y clear del estado activo.
+*/
     @Override
     public void render() {
         _game.getGraphics().clear(_clearColor[_cNum]);
         _activeState.render();
     }
+/**
+    Hace el cambio entre estados.
+    @param i Estado al que quiere cambiarse
 
+*/
     public void spawActiveState(int i){
 
         //ESTADO.MENU
@@ -71,12 +87,19 @@ public class LogicStateManager implements StateManager {
 
         _activeState.init();
     }
+/**
+    @param index imagen de la que se quiere hacer get.
+    @return imagen del vector de imagenes cargadas.
 
+*/
     public Image getImage(int index){
         return _images[index];
     }
 
+/**
+    @return color aleatorio para el fondo.
 
+*/
     public int swapColor(){
         _cNum = (int)(Math.random()* (_totalColors-1));
         return _cNum;

@@ -1,3 +1,6 @@
+/**
+    Implementación de la interfaz Game específica para PC.
+*/
 package gdv.ucm.engine_pc;
 
 import javax.swing.JFrame;
@@ -17,7 +20,9 @@ public class GamePC implements Game {
         _window.addMouseListener(_input);
         _window.setSize(width,  height);
     }
-
+/**
+    Inicializa JFrame y la ventana de la versión PC.
+*/
     public void init(){
 
         _window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -40,7 +45,9 @@ public class GamePC implements Game {
             return;
         }
     }
-
+/**
+    Bucle del juego.
+*/
     public void run(){
         java.awt.image.BufferStrategy strategy;
         strategy = _window.getBufferStrategy();
@@ -69,12 +76,18 @@ public class GamePC implements Game {
             }while(strategy.contentsLost());
         }
     }
-
+/**
+    Devuelve el Graphics
+    @return referencia a Graphics.
+*/
     @Override
     public Graphics getGraphics() {
         return _graphics;
     }
-
+/**
+    Devuelve el Input
+    @return referencia a Input.
+*/
     @Override
     public Input getInput() {
         return _input;

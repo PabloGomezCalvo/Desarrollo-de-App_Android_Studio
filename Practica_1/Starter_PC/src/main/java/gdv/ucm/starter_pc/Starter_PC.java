@@ -1,3 +1,8 @@
+/**
+
+	Clase cuya función es inicializar la lógica y el motor del juego en la versión de PC.
+
+*/
 package gdv.ucm.starter_pc;
 
 

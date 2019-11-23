@@ -1,3 +1,6 @@
+/**
+    Clase que almacena un rectágulo a partir de su esquina superior izquierda, alto y ancho.
+*/
 package gdv.ucm.utilities;
 
 

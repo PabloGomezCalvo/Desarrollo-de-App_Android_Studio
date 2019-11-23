@@ -22,7 +22,11 @@ public class PlayState extends State {
         _ballStartVector = 3;
         _ballSeparation = 395;
     }
+/**
+    
+    Inicialización de las Entidades del estado.
 
+*/
     @Override
     public void init() {
 
@@ -77,7 +81,11 @@ public class PlayState extends State {
         checkNumber();
 
     }
+/**
+    
+    Dibujado de las entidades del Estado.
 
+*/
     @Override
     public void render() {
 
@@ -117,7 +125,11 @@ public class PlayState extends State {
             _whiteFlashAlpha -= 0.025;
         }
     }
+/**
+    
+    Lógica de cada Entidad del estado.
 
+*/
     @Override
     public void update(float deltaTime) {
 
@@ -162,7 +174,9 @@ public class PlayState extends State {
     public int getPoints(){
         return _points;
     }
-
+/**
+    Comprueba los eventos generados y en el caso de que se pulse en la zona destinada al "jugador", hace el swap de color del jugador.
+*/
     private void checkInput(){
         List<Input.TouchEvent> inputStream = _logicStateManager.getGame().getInput().getTouchEvents();
         boolean swapped = false;
@@ -177,7 +191,12 @@ public class PlayState extends State {
             }
         }
     }
+/**
+    Comprueba la colisión entre 2 entidades.
+    @param one rectángulo de la entidad 1
+    @param other rectángulo de la entidad 2
 
+*/
     private boolean checkCollision(Rectangle one, Rectangle other){
 
         if(one._x < other._x + other._width &&
@@ -187,7 +206,11 @@ public class PlayState extends State {
             return true;
         return false;
     }
+/**
+    En el caso de que la separación entre bolas me permita "generar" otra bola,
+    cogemos la siguiente bola que debería caer, la activa y la pone en movimiento.
 
+*/
     private void ballsFalling(){
         if(_entityVector[_ballActive].getPosY() > _ballSeparation){
             boolean selected = false;
@@ -207,7 +230,11 @@ public class PlayState extends State {
             }
         }
     }
+/**
+    
+    Coloca los números de tal manera para que estén centrados en el caso de sean de 1,2 o 3 cifras.
 
+*/
     private void checkNumber(){
         if(_points > 99){
             _entityVector[8].moveEntity(780,_entityVector[8].getPosY());
@@ -234,7 +261,11 @@ public class PlayState extends State {
         }
 
     }
+/**
+    
+    Valor del rectángulo de textura de cada uno de los números.
 
+*/
     private void putNumberFont(int index, int valor){
         switch (valor){
             case 0:

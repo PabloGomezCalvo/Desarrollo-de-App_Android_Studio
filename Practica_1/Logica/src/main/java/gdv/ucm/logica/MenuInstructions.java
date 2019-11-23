@@ -14,7 +14,11 @@ public class MenuInstructions extends State {
         _entityVector = new Entity[6];
         _numColor = numColor;
     }
+/**
+    
+    Inicialización de las Entidades del estado.
 
+*/
     @Override
     public void init() {
         _entityVector[0] = new Entity(
@@ -41,7 +45,11 @@ public class MenuInstructions extends State {
                 new Rectangle((1080 / 2) - (676 / 2), 0, 676, 1920), color);
 
     }
+/**
+    
+    Dibujado de las entidades del Estado.
 
+*/
     @Override
     public void render() {
 
@@ -60,7 +68,11 @@ public class MenuInstructions extends State {
             _whiteFlashAlpha -= 0.025;
         }
     }
+/**
+    
+    Lógica de cada Entidad del estado.
 
+*/
     @Override
     public void update(float deltaTime) {
 

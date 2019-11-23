@@ -1,3 +1,7 @@
+/**
+    Implementación de la interfaz Game específica para Android.
+    Inicializa la SurfaceView y las interfaces Graphics e Input.
+*/
 package gdv.ucm.engine_android;
 
 import android.content.Context;
@@ -20,7 +24,9 @@ public class GameAndroid implements Game, Runnable {
         _stateManager = stateManager;
     }
 
-
+/**
+    Se llama cuando se pausa el juego. Hace la espera de la hebra del juego.
+*/
     public void pause(){
         _running = false;
         do{
@@ -33,7 +39,9 @@ public class GameAndroid implements Game, Runnable {
             }
         }while(true);
     }
-
+/**
+    Se llama cuando se reanuda el juego. Hace el new de la hebra del juego.
+*/
     public void resume(){
         if(!_running) {
             _running = true;
@@ -41,7 +49,9 @@ public class GameAndroid implements Game, Runnable {
             _thread.start();
         }
     }
-
+/**
+    Bucle de ejecución.
+*/
     public void run(){
         SurfaceHolder holder = _surfaceView.getHolder();
 
@@ -64,16 +74,22 @@ public class GameAndroid implements Game, Runnable {
             holder.unlockCanvasAndPost(canvas);
         }
     }
-
+/**
+    @return SurfaceView de la aplicación.
+*/
     public SurfaceView get_surfaceView(){
         return _surfaceView;
     }
-
+/**
+    @return Graphics de la aplicación.
+*/
     @Override
     public Graphics getGraphics() {
         return _graphics;
     }
-
+/**
+    @return Input de la aplicación.
+*/
     @Override
     public Input getInput() {
         return _input;

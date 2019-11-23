@@ -1,3 +1,6 @@
+/**
+    Clase que almacena una imagen y un  rectángulo que se desplaza sobre la imagen.
+*/
 package gdv.ucm.utilities;
 
 import gdv.ucm.interfaces.Image;

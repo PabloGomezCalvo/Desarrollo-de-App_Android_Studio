@@ -1,3 +1,6 @@
+/**
+    Implementación de la clase Input específica de Android.
+*/
 package gdv.ucm.engine_android;
 
 import android.view.MotionEvent;
@@ -10,17 +13,23 @@ import gdv.ucm.interfaces.Input;
 import gdv.ucm.utilities.AbstractGraphics;
 
 public class InputAndroid implements Input, View.OnTouchListener {
-
+/**
+    @param abstractGraphics Necesario para hacer el escalado de la coordenada donde se haga el evento de Input.
+*/
     public InputAndroid(AbstractGraphics abstractGraphics){
         _abstractGraphics = abstractGraphics;
         _inputStream = new ArrayList<>();
     }
-
+/**
+    @return Lista de los eventos.
+*/
     @Override
     synchronized public List<TouchEvent> getTouchEvents() {
         return _inputStream;
     }
-
+/**
+    Comprueba y escala las coordenadas de pulsación con abstractGraphics y genera el evento correspondiente.
+*/
     @Override
     public boolean onTouch(View v, MotionEvent event) {
 

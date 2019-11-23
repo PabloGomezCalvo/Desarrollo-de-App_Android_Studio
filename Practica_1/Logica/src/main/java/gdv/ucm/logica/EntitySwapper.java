@@ -1,3 +1,11 @@
+/**
+
+    Clase cuya función es cambiar el rectángulo de la textura siempre y cuando dicho rectángulo sea colindante con el rectágulo que queremos cambiar. 
+    @param sprite Sprite de la Entidad.
+    @param position Posiciones globales de la entidad.
+    @param mode Modo en el que me encuentro: 0 es abajo o izquierda y 1 es derecha o arriba. Esto sirve para después hacer el swap dependiendo el modo en el que nos encontremos.
+    @param isVertical Nos sirve para saber si el cambio de las texturas va a ser en vertical o no.
+*/
 package gdv.ucm.logica;
 
 import gdv.ucm.utilities.Rectangle;
@@ -13,7 +21,12 @@ public class EntitySwapper extends Entity {
             _swapper = sprite.get_rectTexture()._width;
         _mode = mode;
     }
+/**
 
+    Hace el swap de los rectágulos para modificar la imagen.
+    Hace distinción entre swap vertical y swap horizontal.
+
+*/
     public void swapper(){
 
         if(_mode == 0){
@@ -31,11 +44,19 @@ public class EntitySwapper extends Entity {
             _mode = 0;
         }
     }
+/**
 
+    @return modo en el que estamos.
+
+*/
     public int getMode(){
         return _mode;
     }
+/**
 
+    @param mode modo al que vamos a cambiar.
+
+*/
     public void setMode(int mode){
         _mode = mode;
         if(_mode == 0){

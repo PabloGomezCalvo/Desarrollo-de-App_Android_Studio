@@ -1,3 +1,6 @@
+/**
+    Interfaz de estados.
+*/
 package gdv.ucm.interfaces;
 
 public interface StateManager {

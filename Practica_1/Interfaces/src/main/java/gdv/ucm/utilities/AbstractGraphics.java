@@ -1,3 +1,7 @@
+/**
+    Clase abstracta que implementa la interfaz Graphics.
+    Implementa los escalados dependiendo de la resolución de la ventana.
+*/
 package gdv.ucm.utilities;
 
 import java.io.IOException;
@@ -40,7 +44,9 @@ public abstract class AbstractGraphics implements Graphics {
             _paintSpace._y = 0;
     }
 
-
+/**
+    Escala la pantalla a la resolución óptima.
+*/
     public void changeResolutionRatio(int width, int height){
 
         _paintSpace._width = (width/_aspectRatioOriginalX);
@@ -63,17 +69,28 @@ public abstract class AbstractGraphics implements Graphics {
         else
             _paintSpace._y = 0;
     }
-
+/**
+    Crea una imagen.
+    @param name Ruta del recurso.
+*/
     @Override
     public Image newImage(String name) throws IOException {
         return newPrivateImage(name);
     }
-
+/**
+    Borrado de la pantalla.
+    @param color Color con el que se borra la pantalla.
+*/
     @Override
     public void clear(int color) {
         privateClear(color);
     }
-
+/**
+    Dibuja la imagen dada con la nueva X e Y tras ser escalada.
+    @param image Imagen a dibujar
+    @param x Posición X donde dibujar la imagen
+    @param Y Posición Y donde dibujar la imagen.
+*/
     public void drawImage(Image image, int x, int y) {
         int newX = (x*_paintSpace._width)/_gameResolutionX;
         int newY = (y*_paintSpace._height)/_gameResolutionY;
@@ -82,28 +99,58 @@ public abstract class AbstractGraphics implements Graphics {
         drawPrivateImage(image,newX,newY);
     }
 
-
+/**
+    Dibuja la imagen dada en un rectángulo inicial a otro dado.
+    @param image Imagen a dibujar
+    @param rectOrigin Rectángulo origen de la imagen.
+    @param rectGoal Rectángulo destino donde dibujar la imagen.
+*/
     public void drawRectToRect(Image image,Rectangle rectOrigin, Rectangle rectGoal){
         Rectangle rectGoalScalated = tranformCoordenates(rectGoal);
         drawPrivateRectToRect(image,rectOrigin,rectGoalScalated);
     }
-
+/**
+    Dibuja la imagen dada en un rectángulo inicial a otro dado.
+    @param image Imagen a dibujar
+    @param rectOrigin Rectángulo origen de la imagen.
+    @param rectGoal Rectángulo destino donde dibujar la imagen.
+    @param color Color con el que pintar la imagen.
+*/
     @Override
     public void drawRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal, int color) {
         Rectangle rectGoalScalated = tranformCoordenates(rectGoal);
         drawPrivateRectToRect(image,rectOrigin,rectGoalScalated,color);
     }
-
+/**
+    Dibuja la imagen dada en un rectángulo inicial a otro dado.
+    @param image Imagen a dibujar
+    @param rectOrigin Rectángulo origen de la imagen.
+    @param rectGoal Rectángulo destino donde dibujar la imagen.
+    @param alpha Transparencia de la imagen.
+*/
     @Override
     public void drawRectToRect(Image image, Rectangle rectOrigin, Rectangle rectGoal, float alpha){
         Rectangle rectGoalScalated = tranformCoordenates(rectGoal);
         drawPrivateRectToRect(image,rectOrigin,rectGoalScalated,alpha);
     }
-
+/**
+    Devuelve el color de la imagen dada.
+    @param image Imagen para sacar el color.
+    @param x coordenada x de la esquina superior izquierda del rectángulo del que sacar los píxeles de la imagen.
+    @param y coordenada y de la esquina superior izquierda del rectángulo del que sacar los píxeles de la imagen.
+    @param w ancho del rectangulo de donde sacar los pixeles
+    @param h alto del rectangulo de donde sacar los pixeles
+    @return Color
+*/ 
     @Override
     public int getColorSprite(Image image, int x, int y, int w, int h) {
         return getPrivateColorSprite(image,x,y,w,h);
     }
+/**
+    Cambia la x dada a coordenadas de juego.
+    @param x Coorderanda x a cambiar.
+    @return Coordenada X escalada.
+*/ 
     public int changeToGamelCoordenatesX(int x){
         if(x <= _paintSpace._width + _paintSpace._x && x >= _paintSpace._x) {
             if (_paintSpace._x != 0)
@@ -113,6 +160,11 @@ public abstract class AbstractGraphics implements Graphics {
         }
         return -1;
     }
+/**
+    Cambia la y dada a coordenadas de juego.
+    @param y Coorderanda y a cambiar.
+    @return Coordenada Y escalada.
+*/ 
     public int changeToGamelCoordenatesY(int y){
         if(y <= _paintSpace._height + _paintSpace._y && y >= _paintSpace._y) {
             if (_paintSpace._y != 0)
@@ -122,7 +174,11 @@ public abstract class AbstractGraphics implements Graphics {
         }
         return -1;
     }
-
+/**
+    Escala las coordenadas de un rectángulo dado.
+    @param rectGoal Rectángulo a escalar.
+    @return Rectángulo escalado
+*/ 
     private Rectangle tranformCoordenates(Rectangle rectGoal){
         int newX = (rectGoal._x*_paintSpace._width)/_gameResolutionX;
         int newY = (rectGoal._y*_paintSpace._height)/_gameResolutionY;

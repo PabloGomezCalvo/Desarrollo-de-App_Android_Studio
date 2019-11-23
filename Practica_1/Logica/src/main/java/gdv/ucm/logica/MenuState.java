@@ -13,7 +13,11 @@ public class MenuState extends State {
         _entityVector = new Entity[6];
         _numColor = numColor;
     }
+/**
+    
+    Inicialización de las Entidades del estado.
 
+*/
 
     @Override
     public void init() {
@@ -41,7 +45,11 @@ public class MenuState extends State {
                 new Sprite(_logicStateManager.getImage(2), new Rectangle(0, 1150, 676, 1920)),
                 new Rectangle((1080 / 2) - (676 / 2), 0, 676, 1920), color);
     }
+/**
+    
+    Dibujado de las entidades del Estado.
 
+*/
     @Override
     public void render() {
 
@@ -60,7 +68,11 @@ public class MenuState extends State {
         }
 
     }
+/**
+    
+    Lógica de cada Entidad del estado.
 
+*/
     @Override
     public void update(float deltaTime) {
 

@@ -1,3 +1,12 @@
+
+/**
+
+    Clase que contiene la lógica del estado Game Over.
+    @param logicStateManager Refererencia del Manager de estados.
+    @param numColor Color con el cual se va a pintar la puntuación.
+    @param point Puntos que se han conseguido en el estado del juego.
+
+*/
 package gdv.ucm.logica;
 
 import java.io.IOException;
@@ -15,7 +24,11 @@ public class GameOverState extends State {
         _numColor = numColor;
         _points = points;
     }
+/**
+    
+    Inicialización de las Entidades del estado.
 
+*/
     @Override
     public void init() {
         _entityVector[0] = new Entity(
@@ -76,7 +89,11 @@ public class GameOverState extends State {
         checkNumber();
 
     }
+/**
+    
+    Dibujado de las entidades del Estado.
 
+*/
     @Override
     public void render() {
 
@@ -96,7 +113,11 @@ public class GameOverState extends State {
             _whiteFlashAlpha -= 0.025;
         }
     }
+/**
+    
+    Lógica de cada Entidad del estado.
 
+*/
     @Override
     public void update(float deltaTime) {
         _entityVector[1].moveSurfaceImage(_entityVector[0].getPosImgX(),
@@ -132,7 +153,11 @@ public class GameOverState extends State {
             }
         }
     }
+/**
+    
+    Coloca los números de tal manera para que estén centrados en el caso de sean de 1,2 o 3 cifras.
 
+*/
     private void checkNumber(){
         if(_points > 99){
             int a = _points % 10;
@@ -160,7 +185,11 @@ public class GameOverState extends State {
 
 
     }
+/**
+    
+    Valor del rectángulo de textura de cada uno de los números.
 
+*/
     private void putNumberFont(int index, int valor){
         switch (valor){
             case 0:
